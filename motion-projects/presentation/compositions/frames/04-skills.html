@@ -1,0 +1,212 @@
+<template>
+  <style>
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Bold.otf") format("opentype"); font-weight: 700; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-ExtraBold.otf") format("opentype"); font-weight: 800; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-weight: 700; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; color: #0B2229; -webkit-font-smoothing: antialiased; }
+.p4-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.p4-ground { background: radial-gradient(ellipse 1100px 1300px at 50% 30%, #FBF9F4 0%, #F1EEE7 55%, #E4DFD3 100%); }
+.p4-vig { pointer-events: none; background: radial-gradient(ellipse at 50% 42%, rgba(11,34,41,0) 55%, rgba(11,34,41,.14) 100%); }
+.p4-grain { pointer-events: none; opacity: .14; mix-blend-mode: multiply; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+.p4-tick { position: absolute; width: 2px; background: rgba(11,34,41,.28); }
+.p4-tlab { position: absolute; top: 118px; font: 700 19px "JetBrains Mono", monospace; color: rgba(11,34,41,.64); }
+.p4-rail { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #D9E4E4; }
+.p4-fill { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #0C7F8F; transform-origin: 0 50%; }
+.p4-phw { position: absolute; left: 70px; top: 0; width: 0; height: 200px; }
+.p4-ph { position: absolute; left: -2px; top: 96px; width: 4px; height: 104px; background: #0C7F8F; box-shadow: 0 0 18px rgba(12,127,143,.6); }
+.p4-ph::before { content: ""; position: absolute; top: -6px; left: -12px; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 20px solid #0C7F8F; }
+.p4-tc { position: absolute; left: -48px; top: 56px; width: 96px; height: 40px; border-radius: 8px; background: #0C7F8F; }
+.p4-tc b { position: absolute; left: 0; top: 0; width: 96px; text-align: center; font: 800 24px/40px "JetBrains Mono", monospace; color: #fff; opacity: 0; }
+
+.p4-av-ring { position: absolute; left: 300px; top: 230px; width: 480px; height: 480px; border-radius: 50%; background: conic-gradient(from 210deg, #0C7F8F, #9fdde5, #0C7F8F); padding: 12px; box-shadow: 0 36px 80px rgba(11,34,41,.3); }
+.p4-av-in { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 10px solid #F1EEE7; }
+.p4-av-in img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+.p4-av-halo { position: absolute; left: 300px; top: 230px; width: 480px; height: 480px; border-radius: 50%; border: 3px solid rgba(12,127,143,.35); }
+.p4-wm-top { position: absolute; left: 0; right: 0; top: 780px; font: 700 38px "Inter", sans-serif; letter-spacing: .62em; text-indent: .62em; text-align: center; color: #0B2229; }
+.p4-wm { position: absolute; left: 0; right: 0; top: 842px; text-align: center; font: 700 128px/1 "JetBrains Mono", monospace; color: #0B2229; white-space: nowrap; }
+.p4-wm .o { position: relative; display: inline-block; }
+.p4-wm .o::after { content: ""; position: absolute; left: 50%; top: -4%; width: .1em; height: 1.12em; margin-left: -.05em; background: #0C7F8F; transform: rotate(28deg); border-radius: 4px; box-shadow: 0 0 22px rgba(12,127,143,.55); }
+
+.p4-cam { position: absolute; left: 90px; top: 260px; width: 900px; height: 530px; }
+.p4-panel { position: absolute; left: 0; top: 0; width: 900px; height: 530px; background: #fff; border-radius: 44px; box-shadow: 0 40px 90px rgba(11,34,41,.22), 0 0 0 2px rgba(11,34,41,.06); }
+.p4-tool { position: absolute; top: 30px; width: 180px; height: 120px; opacity: 0; }
+.p4-tile { position: absolute; left: 46px; top: 0; width: 88px; height: 88px; border-radius: 20px; background: #fff; overflow: hidden; box-shadow: 0 0 0 2px #E8E4DA, 0 10px 22px rgba(11,34,41,.16); }
+.p4-tile img { width: 100%; height: 100%; display: block; }
+.p4-tile .cv { object-fit: cover; }
+.p4-tile .ct { object-fit: contain; padding: 10px; width: 88px; height: 88px; box-sizing: border-box; }
+.p4-tname { position: absolute; left: 0; top: 98px; width: 180px; text-align: center; font: 700 18px/22px "JetBrains Mono", monospace; letter-spacing: .04em; color: #0B2229; white-space: nowrap; }
+.p4-dark { position: absolute; left: 30px; top: 162px; width: 840px; height: 338px; border-radius: 20px; background: #0B2229; overflow: hidden; }
+.p4-lane { position: absolute; left: 0; width: 840px; background: rgba(255,255,255,.05); }
+.p4-lab { position: absolute; left: 12px; font: 700 16px "JetBrains Mono", monospace; color: rgba(255,255,255,.62); }
+.p4-clip { position: absolute; height: 56px; border-radius: 10px; color: #fff; font: 700 20px "JetBrains Mono", monospace; letter-spacing: 1px; display: flex; align-items: center; padding: 0 14px; white-space: nowrap; box-shadow: inset 0 0 0 2px rgba(255,255,255,.25); opacity: 0; box-sizing: border-box; }
+.p4-bar { position: absolute; width: 4px; border-radius: 3px; background: rgba(255,255,255,.62); opacity: 0; }
+.p4-play { position: absolute; left: 0; top: 8px; width: 4px; height: 316px; margin-left: -2px; border-radius: 3px; }
+.p4-play.a { background: rgba(255,255,255,.7); }
+.p4-play.b { background: #9FDDE5; box-shadow: 0 0 16px rgba(159,221,229,.85); opacity: 0; }
+.p4-cut { position: absolute; left: 0; top: 14px; width: 4px; height: 76px; margin-left: -2px; border-radius: 3px; background: #fff; opacity: 0; }
+.p4-mini { position: absolute; border-radius: 26px; overflow: hidden; background: #fff; box-shadow: 0 26px 60px rgba(11,34,41,.28), 0 0 0 6px #fff; }
+.p4-mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.p4-sub { position: absolute; left: 0; top: 1420px; width: 1080px; text-align: center; font: 800 64px/77px "Inter", sans-serif; letter-spacing: -.01em; color: #0B2229; white-space: nowrap; }
+.p4-sw { display: inline-block; opacity: 0; }
+.p4-ink { position: relative; display: inline-block; margin: 0 14px; }
+.p4-inkbg { position: absolute; left: -16px; right: -16px; top: 4px; bottom: 0; border-radius: 12px; background: #0C7F8F; transform-origin: 0 50%; transform: scaleX(0); }
+.p4-inktx { position: relative; }
+.p4-sw.inb { color: #fff; }
+.p4-pk { position: relative; display: inline-block; }
+.p4-stroke { position: absolute; left: -4px; right: -4px; bottom: -6px; height: 9px; border-radius: 5px; background: #0C7F8F; transform-origin: 0 50%; transform: scaleX(0) rotate(-1.4deg); }
+</style>
+
+  <div id="root" data-composition-id="04-skills" data-width="1080" data-height="1920" data-duration="5.20">
+    <div id="p4-ground" class="clip p4-layer p4-ground" data-start="0" data-duration="5.20" data-track-index="0"></div>
+    <div id="p4-header" class="clip p4-layer" data-start="0" data-duration="5.20" data-track-index="2" style="z-index:3">
+            <div class="p4-rail"></div><div id="p4-fill" class="p4-fill"></div><i class="p4-tick" style="left:70.0px;top:150px;height:26px"></i><i class="p4-tick" style="left:95.6px;top:162px;height:14px"></i><i class="p4-tick" style="left:121.3px;top:162px;height:14px"></i><i class="p4-tick" style="left:146.9px;top:162px;height:14px"></i><i class="p4-tick" style="left:172.5px;top:162px;height:14px"></i><i class="p4-tick" style="left:198.1px;top:150px;height:26px"></i><b class="p4-tlab" style="left:204.1px">00:05</b><i class="p4-tick" style="left:223.8px;top:162px;height:14px"></i><i class="p4-tick" style="left:249.4px;top:162px;height:14px"></i><i class="p4-tick" style="left:275.0px;top:162px;height:14px"></i><i class="p4-tick" style="left:300.6px;top:162px;height:14px"></i><i class="p4-tick" style="left:326.3px;top:150px;height:26px"></i><b class="p4-tlab" style="left:332.3px">00:10</b><i class="p4-tick" style="left:351.9px;top:162px;height:14px"></i><i class="p4-tick" style="left:377.5px;top:162px;height:14px"></i><i class="p4-tick" style="left:403.2px;top:162px;height:14px"></i><i class="p4-tick" style="left:428.8px;top:162px;height:14px"></i><i class="p4-tick" style="left:454.4px;top:150px;height:26px"></i><b class="p4-tlab" style="left:460.4px">00:15</b><i class="p4-tick" style="left:480.0px;top:162px;height:14px"></i><i class="p4-tick" style="left:505.7px;top:162px;height:14px"></i><i class="p4-tick" style="left:531.3px;top:162px;height:14px"></i><i class="p4-tick" style="left:556.9px;top:162px;height:14px"></i><i class="p4-tick" style="left:582.5px;top:150px;height:26px"></i><b class="p4-tlab" style="left:588.5px">00:20</b><i class="p4-tick" style="left:608.2px;top:162px;height:14px"></i><i class="p4-tick" style="left:633.8px;top:162px;height:14px"></i><i class="p4-tick" style="left:659.4px;top:162px;height:14px"></i><i class="p4-tick" style="left:685.0px;top:162px;height:14px"></i><i class="p4-tick" style="left:710.7px;top:150px;height:26px"></i><b class="p4-tlab" style="left:716.7px">00:25</b><i class="p4-tick" style="left:736.3px;top:162px;height:14px"></i><i class="p4-tick" style="left:761.9px;top:162px;height:14px"></i><i class="p4-tick" style="left:787.6px;top:162px;height:14px"></i><i class="p4-tick" style="left:813.2px;top:162px;height:14px"></i><i class="p4-tick" style="left:838.8px;top:150px;height:26px"></i><b class="p4-tlab" style="left:844.8px">00:30</b><i class="p4-tick" style="left:864.4px;top:162px;height:14px"></i><i class="p4-tick" style="left:890.1px;top:162px;height:14px"></i><i class="p4-tick" style="left:915.7px;top:162px;height:14px"></i><i class="p4-tick" style="left:941.3px;top:162px;height:14px"></i><i class="p4-tick" style="left:966.9px;top:150px;height:26px"></i><b class="p4-tlab" style="left:972.9px">00:35</b><i class="p4-tick" style="left:992.6px;top:162px;height:14px"></i>
+      <div id="p4-phw" class="p4-phw"><div class="p4-ph"></div><div class="p4-tc"><b id="p4-t0">00:14</b><b id="p4-t1">00:15</b><b id="p4-t2">00:16</b><b id="p4-t3">00:17</b><b id="p4-t4">00:18</b><b id="p4-t5">00:19</b></div></div>
+    </div>
+    <div id="p4-world" class="clip p4-layer" data-start="0" data-duration="5.20" data-track-index="1" style="z-index:2">
+      <div id="p4-pc" class="p4-mini" data-layout-allow-overflow style="left:690px;top:1020px;width:420px;height:300px;opacity:0"><img src="assets/img/fx/pc.jpg" alt=""></div>
+      <div id="p4-av" class="p4-layer" data-layout-allow-overflow>
+        <div class="p4-av-ring"><div class="p4-av-in"><img src="assets/img/fx/portrait.jpg" alt=""></div></div>
+        <div class="p4-av-halo" id="p4-halo"></div>
+        <div class="p4-wm-top">JAMES</div>
+        <div class="p4-wm">FRAM<span class="o">O</span>TION</div>
+      </div>
+      <div id="p4-cam" class="p4-cam" data-layout-allow-overflow>
+        <div id="p4-panel" class="p4-panel" data-layout-allow-overflow>
+          <div id="p4-tool0" class="p4-tool" style="left:30px"><div class="p4-tile"><img class="cv" src="assets/logos/premiere.png" alt=""></div><div class="p4-tname">Premiere Pro</div></div>
+          <div id="p4-tool1" class="p4-tool" style="left:230px"><div class="p4-tile"><img class="ct" src="assets/logos/capcut.png" alt=""></div><div class="p4-tname">CapCut</div></div>
+          <div id="p4-tool2" class="p4-tool" style="left:430px"><div class="p4-tile"><img class="cv" src="assets/logos/davinci.jpg" alt=""></div><div class="p4-tname">DaVinci</div></div>
+          <div class="p4-dark">
+            <div class="p4-lane" style="top:16px;height:72px"></div><div class="p4-lab" style="top:44px">V2</div>
+            <div class="p4-lane" style="top:98px;height:72px"></div><div class="p4-lab" style="top:126px">V1</div>
+            <div id="p4-lanea" style="position:absolute;left:0;top:180px;width:840px;height:128px;opacity:0"><div class="p4-lane" style="top:0;height:128px"></div><div class="p4-lab" style="top:54px">A1</div></div>
+            <div id="p4-c0" class="p4-clip" style="left:56px;top:24px;width:260px;background:#0C7F8F">HOOK VISUEL</div>
+            <div id="p4-c1" class="p4-clip" style="left:110px;top:106px;width:330px;background:#0F8493">ÉTALONNAGE</div>
+            <div id="p4-c2" class="p4-clip" style="left:366px;top:24px;width:210px;background:#0E8C9C">TRANSITION</div>
+            <div id="p4-c3" class="p4-clip" style="left:110px;top:198px;width:550px;height:96px;background:#1c6f77">SOUND DESIGN</div>
+            <i class="p4-bar" style="left:340px;top:236px;height:20px"></i><i class="p4-bar" style="left:348px;top:219px;height:55px"></i><i class="p4-bar" style="left:356px;top:210px;height:73px"></i><i class="p4-bar" style="left:364px;top:213px;height:66px"></i><i class="p4-bar" style="left:372px;top:228px;height:37px"></i><i class="p4-bar" style="left:380px;top:227px;height:38px"></i><i class="p4-bar" style="left:388px;top:213px;height:67px"></i><i class="p4-bar" style="left:396px;top:210px;height:73px"></i><i class="p4-bar" style="left:404px;top:220px;height:53px"></i><i class="p4-bar" style="left:412px;top:236px;height:20px"></i><i class="p4-bar" style="left:420px;top:219px;height:55px"></i><i class="p4-bar" style="left:428px;top:210px;height:73px"></i><i class="p4-bar" style="left:436px;top:213px;height:66px"></i><i class="p4-bar" style="left:444px;top:228px;height:37px"></i><i class="p4-bar" style="left:452px;top:226px;height:40px"></i><i class="p4-bar" style="left:460px;top:213px;height:67px"></i><i class="p4-bar" style="left:468px;top:210px;height:73px"></i><i class="p4-bar" style="left:476px;top:220px;height:53px"></i><i class="p4-bar" style="left:484px;top:236px;height:21px"></i><i class="p4-bar" style="left:492px;top:218px;height:56px"></i><i class="p4-bar" style="left:500px;top:210px;height:73px"></i><i class="p4-bar" style="left:508px;top:213px;height:66px"></i><i class="p4-bar" style="left:516px;top:228px;height:36px"></i><i class="p4-bar" style="left:524px;top:226px;height:40px"></i><i class="p4-bar" style="left:532px;top:212px;height:68px"></i><i class="p4-bar" style="left:540px;top:210px;height:72px"></i><i class="p4-bar" style="left:548px;top:220px;height:52px"></i><i class="p4-bar" style="left:556px;top:235px;height:22px"></i><i class="p4-bar" style="left:564px;top:218px;height:57px"></i><i class="p4-bar" style="left:572px;top:210px;height:73px"></i><i class="p4-bar" style="left:580px;top:214px;height:65px"></i><i class="p4-bar" style="left:588px;top:229px;height:35px"></i><i class="p4-bar" style="left:596px;top:226px;height:41px"></i><i class="p4-bar" style="left:604px;top:212px;height:68px"></i><i class="p4-bar" style="left:612px;top:210px;height:72px"></i><i class="p4-bar" style="left:620px;top:220px;height:52px"></i><i class="p4-bar" style="left:628px;top:235px;height:22px"></i><i class="p4-bar" style="left:636px;top:218px;height:57px"></i><i class="p4-bar" style="left:644px;top:210px;height:73px"></i><i class="p4-bar" style="left:652px;top:214px;height:65px"></i>
+            <div id="p4-c4" class="p4-clip" style="left:650px;top:24px;width:150px;background:#0C7F8F">MASK</div>
+            <div id="p4-c5" class="p4-clip" style="left:640px;top:106px;width:170px;background:#0C7F8F">VFX</div>
+            <i id="p4-cut" class="p4-cut" style="left:471px"></i>
+            <div id="p4-play" style="position:absolute;left:0;top:0;width:0;height:0"><i class="p4-play a"></i><i id="p4-playb" class="p4-play b"></i></div>
+          </div>
+        </div>
+      </div>
+      <div id="p4-cap" class="p4-mini" data-layout-allow-overflow style="left:240px;top:930px;width:600px;height:420px;opacity:0"><img src="assets/img/fx/premiere.jpg" alt=""></div>
+    </div>
+    <div id="p4-subs" class="clip p4-layer" data-start="0" data-duration="5.20" data-track-index="3" style="z-index:4">
+      <div id="p4-s1" class="p4-sub"><span class="p4-sw" data-cue="0.00">Hook</span> <span class="p4-sw" data-cue="0.16">visuel,</span> <span class="p4-sw" data-cue="0.92">étalonnage,</span></div>
+      <div id="p4-s2" class="p4-sub"><span class="p4-sw" data-cue="1.72">transition,</span></div>
+      <div id="p4-s3" class="p4-sub"><span class="p4-ink" style="margin-right:2px"><i class="p4-inkbg" data-trace="2.44"></i><span class="p4-inktx"><span class="p4-sw inb" data-cue="2.54">sound</span> <span class="p4-sw inb" data-cue="2.74">design</span></span></span><span class="p4-sw" data-cue="3.10">,</span></div>
+      <div id="p4-s4" class="p4-sub"><span class="p4-sw" data-cue="3.44">mask,</span> <span class="p4-pk"><span class="p4-sw" data-cue="4.06">VFX.</span><i id="p4-stroke" class="p4-stroke" data-trace="4.10"></i></span></div>
+    </div>
+    <div id="p4-vig" class="clip p4-layer p4-vig" data-start="0" data-duration="5.20" data-track-index="4" style="z-index:5"></div>
+    <div id="p4-grain" class="clip p4-layer p4-grain" data-start="0" data-duration="5.20" data-track-index="5" style="z-index:6"></div>
+  </div>
+
+
+  <script src="assets/vendor/gsap-3.14.2.min.js"></script>
+  <script>
+    (function () {
+      var FID = "04-skills", DUR = 5.20;
+      var root = document.querySelector('[data-composition-id="' + FID + '"]');
+      function $(n) { return root.querySelector("#p4-" + n); }
+      function qa(sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+      var tl = gsap.timeline({ paused: true });
+      function fl(el, a, b, t) { b.immediateRender = false; tl.fromTo(el, a, b, t); }
+
+      // ---------- état de départ = handoff_in : le groupe avatar (flou 10), le panneau hors cadre en haut ----------
+      gsap.set($("av"), { filter: "blur(10px)" });
+      gsap.set($("panel"), { rotation: -0.8, transformOrigin: "50% 0%", y: -1100, scale: 1.3, filter: "blur(10px)" });
+      gsap.set($("cam"), { transformOrigin: "50% 0%" });
+      gsap.set($("cap"), { rotation: 1.6 });
+      gsap.set($("pc"), { rotation: -5, filter: "blur(8px)" });
+      gsap.set($("fill"), { scaleX: 363 / 940 });
+      gsap.set($("phw"), { x: 363 });
+      gsap.set($("t0"), { opacity: 1 });
+      gsap.set($("lanea"), { transformOrigin: "50% 0%" });
+      gsap.set($("stroke"), { rotation: -1.4 });
+      var play = $("play");
+      gsap.set(play, { x: 44 });
+
+      // ---------- la règle de temps : linéaire (x 433 → 566 sur 5.20 s) ----------
+      tl.fromTo($("fill"), { scaleX: 363 / 940 }, { scaleX: 496 / 940, duration: DUR, ease: "none", immediateRender: true }, 0);
+      tl.fromTo($("phw"), { x: 363 }, { x: 496, duration: DUR, ease: "none", immediateRender: true }, 0);
+      [["t0", "t1", 0.84], ["t1", "t2", 1.84], ["t2", "t3", 2.84], ["t3", "t4", 3.84], ["t4", "t5", 4.84]].forEach(function (s) {
+        tl.set($(s[0]), { opacity: 0 }, s[2]); tl.set($(s[1]), { opacity: 1 }, s[2]);
+      });
+
+      // ---------- dérive linéaire du monde : +30 u/s vers le haut ----------
+      tl.fromTo($("world"), { y: 0 }, { y: -30 * DUR, duration: DUR, ease: "none", immediateRender: true }, 0);
+
+      // ---------- scène 1 (0.00 à 1.70) : le groupe avatar sort vers le bas, le panneau arrive ----------
+      tl.fromTo($("av"), { y: 0 }, { y: 1900, duration: 0.25, ease: "expo.in", immediateRender: true }, 0);
+      tl.fromTo($("panel"), { y: -1100, scale: 1.3, filter: "blur(10px)" }, { y: 0, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out", immediateRender: true }, 0.05);
+      fl($("pc"), { opacity: 0 }, { opacity: 0.6, duration: 0.3, ease: "power1.out" }, 0.35);
+      // les 3 tuiles-logos, une à une
+      [0, 1, 2].forEach(function (i) {
+        var el = $("tool" + i), t = 0.30 + 0.1 * i;
+        tl.set(el, { opacity: 1 }, t);
+        gsap.set(el, { transformOrigin: "50% 44px" });
+        fl(el, { scale: 0.8 }, { scale: 1, duration: 0.15, ease: "power3.out" }, t);
+      });
+      // pose d'un clip : x -300 -> 0, flou 8 -> 0
+      function land(id, t) {
+        var el = $(id);
+        tl.set(el, { opacity: 1 }, t);
+        fl(el, { x: -300, filter: "blur(8px)" }, { x: 0, filter: "blur(0px)", duration: 0.25, ease: "expo.out" }, t);
+      }
+      land("c0", 0.10);
+      land("c1", 0.92);
+      // tête de lecture du panneau : glisse de gauche à 338
+      fl(play, { x: 44 }, { x: 338, duration: 0.4, ease: "power2.inOut" }, 1.40);
+
+      // ---------- scène 2 (1.70 à 2.54) : « transition » ----------
+      land("c2", 1.72);
+      fl($("cam"), { scale: 1 }, { scale: 1.04, duration: 0.23, ease: "expo.out" }, 1.72);
+      tl.set($("cut"), { opacity: 1 }, 1.90);
+      fl($("cut"), { scaleY: 0 }, { scaleY: 1, duration: 0.12, ease: "power2.out" }, 1.90);
+      tl.set($("cut"), { opacity: 0 }, 2.04);
+      fl(play, { x: 338 }, { x: 560, duration: 0.12, ease: "expo.out" }, 2.10);
+
+      // ---------- scène 3 (2.54 à 3.44) : la piste A1 et sa forme d'onde ----------
+      tl.set($("lanea"), { opacity: 1 }, 2.04);
+      fl($("lanea"), { scaleY: 0 }, { scaleY: 1, duration: 0.2, ease: "power2.out" }, 2.04);
+      fl($("cam"), { y: 0 }, { y: 60, duration: 0.3, ease: "expo.out" }, 2.50);
+      land("c3", 2.54);
+      fl(qa("#p4-world .p4-bar"), { opacity: 0 }, { opacity: 1, duration: 0.1, ease: "power1.out", stagger: 0.0125 }, 2.70);
+      fl(play, { x: 560 }, { x: 620, duration: 0.12, ease: "expo.out" }, 2.90);
+      fl($("playb"), { opacity: 0 }, { opacity: 1, duration: 0.15, ease: "power1.out" }, 2.90);
+
+      // ---------- scène 4 (3.44 à 5.20) : mask, VFX, la capture Premiere Pro ----------
+      land("c4", 3.44);
+      land("c5", 4.06);
+      tl.set($("cap"), { opacity: 1 }, 4.30);
+      fl($("cap"), { y: 120, filter: "blur(12px)" }, { y: 0, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 4.30);
+      fl(play, { x: 620 }, { x: 826, duration: 0.25, ease: "power1.inOut" }, 4.35);
+      // couture : le panneau monte d'un cran, flou 10 px ; la capture reste en bas
+      fl($("panel"), { y: 0, filter: "blur(0px)" }, { y: -360, filter: "blur(10px)", duration: 0.3, ease: "expo.in" }, 4.90);
+      fl($("cap"), { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.3, ease: "power1.in" }, 4.90);
+      fl($("pc"), { filter: "blur(8px)" }, { filter: "blur(10px)", duration: 0.3, ease: "power1.in" }, 4.90);
+
+      // ---------- sous-titres : mot par mot ----------
+      qa(".p4-sub .p4-sw").forEach(function (wd) {
+        var t0 = parseFloat(wd.getAttribute("data-cue")), inb = wd.classList.contains("inb");
+        fl(wd, { opacity: 0, y: 10, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, t0);
+        if (!inb) fl(wd, { color: "rgba(11,34,41,0.35)" }, { color: "rgba(11,34,41,1)", duration: 0.2, ease: "power1.out" }, t0 + 0.08);
+      });
+      fl($("s3").querySelector(".p4-inkbg"), { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, 2.44);
+      fl($("stroke"), { scaleX: 0 }, { scaleX: 1, duration: 0.4, ease: "power2.out" }, 4.10);
+      function subOut(id, t0) {
+        var els = qa("#p4-" + id + " .p4-sw").concat(qa("#p4-" + id + " .p4-inkbg")).concat(qa("#p4-" + id + " .p4-stroke"));
+        fl(els, { opacity: 1, filter: "blur(0px)" }, { opacity: 0, filter: "blur(6px)", duration: 0.12, ease: "power2.in" }, t0);
+      }
+      subOut("s1", 1.58); subOut("s2", 2.20); subOut("s3", 3.30); subOut("s4", 5.06);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines[FID] = tl;
+    })();
+  </script>
+</template>

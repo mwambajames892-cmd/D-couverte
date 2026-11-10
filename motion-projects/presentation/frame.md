@@ -61,7 +61,7 @@ negative:
 
 # James Framotion : frame spec
 
-Le film a un seul monde : **le fil**. Le spectateur est dans un réseau social vertical, en haut défile la **règle de temps**
+Le film a un seul monde : **le fil** (clair), qui s'achève sur un **iris vert-bleu** ouvrant le logo animé de James sur fond sombre #030B10 (séquence 9, vidéo fournie, aucune voix). Le spectateur est dans un réseau social vertical, en haut défile la **règle de temps**
 d'un logiciel de montage, et la caméra descend de post en post. La douleur est celle de la voix : une vidéo à 92 % et un
 message qui tombe dessus. Le **pivot** (« qu'est-ce qu'elles ont de plus ? ») montre l'avant/après d'étalonnage de James.
 La solution : son profil `@jamesframotion`, ses outils posés sur une timeline, la grille de ses services, puis la carte de fin

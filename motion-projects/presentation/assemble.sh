@@ -14,8 +14,8 @@ export HYPERFRAMES_NO_TELEMETRY=1 DO_NOT_TRACK=1 HYPERFRAMES_SKIP_SKILLS=1 HYPER
 
 # ---- settings (times in seconds on the final timeline, see STORYBOARD.md) ------------------------------------------
 FIRST_FRAME="01-hook"      # id of the first frame (basename of its src, without .html)
-END_CARD="08-fin"          # id of the end card frame (the iris opens it)
-TOTAL="36.68"               # final duration = STORYBOARD duration = TOTAL in build-audio.sh
+END_CARD="09-logo"          # id of the end card frame (the iris opens it)
+TOTAL="44.68"               # final duration = STORYBOARD duration = TOTAL in build-audio.sh
 AUDIO=""   # mix from build-audio.sh or build-music-options.py (MIX=mix-M2.wav bash assemble.sh); empty = silent
 
 # Light flash, dark world -> light world (empty LEAK_AT = no flash). The flash covers the screen from
@@ -27,9 +27,9 @@ LEAK_Y="540"
 # Iris, light world -> dark end card (empty IRIS_AT = no iris). The end card must start at IRIS_AT+0.05 with
 # transition_in: cut. The frame under the iris is kept mounted until IRIS_AT+0.80: its own internal clips must
 # last that long too, or the iris opens on black (see references/pitfalls.md).
-IRIS_AT=""
-IRIS_X="1400"              # iris center in px (the object the iris grows from)
-IRIS_Y="450"
+IRIS_AT="38.63"
+IRIS_X="540"              # iris center in px (the object the iris grows from)
+IRIS_Y="1215"
 IRIS_FROM=""               # id of the frame under the iris (empty = the frame just before END_CARD)
 
 # Paper bed under the light world, so a crossfade between two light frames never shows the dark root.
@@ -43,12 +43,16 @@ ACCENT="#0C7F8F"
 ACCENT_LIGHT="#27B2C4"
 ACCENT_GLOW="#9FDDE5"
 
+# Vidéo du logo animé (séquence 9) : posée à la racine par l'orchestrateur, ouverte par le même cercle que l'iris.
+LOGO_VIDEO="assets/video/james-framotion-reveal-9x16-gop30.mp4"
+LOGO_DUR="6.00"
+
 RUN_LINT="${RUN_LINT:-1}"  # RUN_LINT=0 skips the lint
 # ---------------------------------------------------------------------------------------------------------------------
 
 S=../.claude/skills/product-launch-video/scripts
 [ -d "$S" ] || { echo "assemble: $S not found (the project must sit at the repository root)" >&2; exit 1; }
-export FIRST_FRAME END_CARD TOTAL AUDIO LEAK_AT LEAK_X LEAK_Y IRIS_AT IRIS_X IRIS_Y IRIS_FROM PAPER BED_START BED_END \
+export LOGO_VIDEO LOGO_DUR FIRST_FRAME END_CARD TOTAL AUDIO LEAK_AT LEAK_X LEAK_Y IRIS_AT IRIS_X IRIS_Y IRIS_FROM PAPER BED_START BED_END \
   ACCENT ACCENT_LIGHT ACCENT_GLOW
 
 python3 - <<'EOF'
@@ -150,9 +154,12 @@ if leak_at is not None:
       </div>'''
 if iris_at is not None:
     ix, iy = int(float(env["IRIS_X"])), int(float(env["IRIS_Y"]))
+    if env.get("LOGO_VIDEO"):
+        fx += f'''
+      <video id="logovid" class="clip" data-start="{round(iris_at + 0.05, 3)}" data-duration="{env["LOGO_DUR"]}" data-track-index="14" src="{env["LOGO_VIDEO"]}" muted playsinline style="position:absolute;left:0;top:0;width:1080px;height:1920px;object-fit:cover;z-index:58"></video>'''
     fx += f'''
       <div id="fxiris" class="clip" data-start="{iris_at}" data-duration="0.95" data-track-index="31" style="position:absolute;inset:0;overflow:hidden;pointer-events:none;z-index:61">
-        <svg width="1920" height="1080" viewBox="0 0 1920 1080" style="position:absolute;inset:0"><circle id="fxiris-ring" cx="{ix}" cy="{iy}" r="0" fill="none" stroke="{light}" stroke-width="6" style="filter:drop-shadow(0 0 16px {glow}) drop-shadow(0 0 40px {rgba(accent, .8)})"/></svg>
+        <svg width="1080" height="1920" viewBox="0 0 1080 1920" style="position:absolute;left:0;top:0"><circle id="fxiris-ring" cx="{ix}" cy="{iy}" r="0" fill="none" stroke="{light}" stroke-width="6" style="filter:drop-shadow(0 0 16px {glow}) drop-shadow(0 0 40px {rgba(accent, .8)})"/></svg>
       </div>'''
 s = s[:close] + fx + s[close:]
 
@@ -183,14 +190,21 @@ if iris_at is not None:
     t = lambda d: round(iris_at + d, 3)
     card = env["END_CARD"]
     tl += f'''        tl.fromTo("#el-{card}", {{ clipPath: "circle(0% at {ix}px {iy}px)" }}, {{ clipPath: "circle(160% at {ix}px {iy}px)", duration: 0.75, ease: "power2.inOut", immediateRender: false }}, {t(0.05)});
+        tl.fromTo("#logovid", {{ clipPath: "circle(0% at {ix}px {iy}px)" }}, {{ clipPath: "circle(160% at {ix}px {iy}px)", duration: 0.75, ease: "power2.inOut", immediateRender: false }}, {t(0.05)});
         tl.fromTo("#fxiris-ring", {{ attr: {{ r: 0 }} }}, {{ attr: {{ r: 2492 }}, duration: 0.75, ease: "power2.inOut", immediateRender: false }}, {t(0.05)});
         tl.fromTo("#fxiris-ring", {{ opacity: 0 }}, {{ opacity: 1, duration: 0.08, immediateRender: false }}, {t(0.05)});
         tl.to("#fxiris-ring", {{ opacity: 0, duration: 0.15 }}, {t(0.70)});
 '''
 anchor = re.search(r"(?m)^[ \t]*tl\.to\(\{\}, \{ duration: [0-9.]+ \}, 0\);", s)
-if not anchor:
-    raise SystemExit("assemble: full-span anchor tl.to({}, { duration: N }, 0); not found in index.html")
-s = s[:anchor.start()] + tl + s[anchor.start():]
+if anchor:
+    s = s[:anchor.start()] + tl + s[anchor.start():]
+else:
+    # assembleur récent : la timeline principale est créée vide, sans variable `tl` ni ancre de durée
+    m = re.search(r'window\.__timelines\["main"\] = gsap\.timeline\(\{ paused: true \}\);', s)
+    if not m:
+        raise SystemExit("assemble: main timeline registration not found in index.html")
+    s = (s[:m.start()] + "var tl = gsap.timeline({ paused: true });\n" + tl
+         + f"        tl.to({{}}, {{ duration: {total} }}, 0);\n        window.__timelines[\"main\"] = tl;" + s[m.end():])
 open(p, "w", encoding="utf-8").write(s)
 print("orchestrator layer patched:", ", ".join(k for k, v in (("audio", env.get("AUDIO")), ("flash", leak_at is not None),
       ("iris", iris_at is not None), ("paper bed", "paperbed" in s)) if v) or "nothing")

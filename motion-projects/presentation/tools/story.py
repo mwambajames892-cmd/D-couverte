@@ -115,11 +115,11 @@ FRAMES = [
   ("0.00 à 1.70", 1, "le panneau arrive, « Hook visuel » puis « étalonnage »",
    "TEXTE ÉCRAN : « Hook visuel, étalonnage, » (0.00, 0.16, 0.92) ; puces d'outils « Premiere Pro », « CapCut », « DaVinci » ; écart synchro.",
    "IMAGE DE DÉPART : handoff_in : l'avatar et le mot-symbole qui descendent, en flou vertical.",
-   "ÉTAPES : 0.00 le groupe avatar sort vers le bas (y +1100, flou 10, expo.in 0.25 s) ; 0.05 le panneau de montage entre par le haut, trop grand (échelle 1,3 → 1, flou 10 → 0, expo.out 0.35 s) ; 0.30 les 3 puces d'outils paraissent une à une (0.1 s d'écart, échelle .8 → 1) ; 0.00 le clip « HOOK VISUEL » se pose sur la piste V2 (x −300 → 0, flou 8 → 0, 0.25 s) ; 0.92 le clip « ÉTALONNAGE » se pose sur la piste V1 (même geste) ; 1.40 la tête de lecture du panneau (trait clair vertical) glisse de x 60 à x 330.",
+   "ÉTAPES : 0.00 le groupe avatar sort vers le bas (y +1100, flou 10, expo.in 0.25 s) ; 0.05 le panneau de montage entre par le haut, trop grand (échelle 1,3 → 1, flou 10 → 0, expo.out 0.35 s) ; 0.30 les 3 tuiles-logos (Premiere Pro, CapCut, DaVinci, fichiers de assets/logos) paraissent une à une (0.1 s d'écart, échelle .8 → 1) ; 0.00 le clip « HOOK VISUEL » se pose sur la piste V2 (x −300 → 0, flou 8 → 0, 0.25 s) ; 0.92 le clip « ÉTALONNAGE » se pose sur la piste V1 (même geste) ; 1.40 la tête de lecture du panneau (trait clair vertical) glisse de x 60 à x 330.",
    "PISTE CAMÉRA : dérive +30 u/s ; 0.05 à 0.40 atterrissage du panneau.",
    "COUCHES ET PROFONDEUR : avant-plan le panneau qui arrive flou ; sujet les clips nets ; fond mini carte floue (PC) à droite ; 3 couches.",
    "OBJET-PONT ET VECTEUR : la tête de lecture du panneau continue dans les scènes suivantes.",
-   "SON : whoosh à 0.05 (le panneau), clic à 0.00 et à 0.92 (chaque clip se pose).", "IMAGE CLÉ : 1.00 : le panneau avec 2 clips posés, les 3 puces, « Hook visuel, étalonnage, »."),
+   "SON : whoosh à 0.05 (le panneau), clic à 0.00 et à 0.92 (chaque clip se pose).", "IMAGE CLÉ : 1.00 : le panneau avec 2 clips posés, les 3 logos d'outils, « Hook visuel, étalonnage, »."),
   ("1.70 à 2.54", 2, "« transition »",
    "TEXTE ÉCRAN : « transition, » (1.72) ; écart synchro.",
    "IMAGE DE DÉPART : le panneau avec 2 clips, la tête de lecture à x 330.",
@@ -224,12 +224,12 @@ FRAMES = [
    "COUCHES ET PROFONDEUR : avant-plan rien ; sujet la bande puis l'avatar ; fond le papier ; 2 couches.",
    "OBJET-PONT ET VECTEUR : la bande de 3 images devient l'avatar de James (centre haut), qui ouvre la carte de fin.",
    "SON : whoosh à 2.36 (elles se rassemblent), ping à 3.00 (l'avatar).", "IMAGE CLÉ : 2.60 : les 3 images en couleur qui se rassemblent en bande, « une histoire » avec son trait.")]),
- dict(n=8, id='08-fin', title="James Framotion, ton monteur vidéo. Écris-moi.", a=32.06, b=36.68, type='cta', bp='cta-morph-press', rules='cursor-click-ripple, ambient-glow-bloom',
+ dict(n=8, id='08-fin', title="James Framotion, ton monteur vidéo. Écris-moi.", a=32.06, b=38.68, type='cta', bp='cta-morph-press', rules='cursor-click-ripple, ambient-glow-bloom',
   voice="James Framotion, ton monteur vidéo. Écris-moi en DM et abonne-toi !",
   focal="le mot-symbole FRAMØTION, puis la carte « Écris-moi… » et le bouton « S'abonner »",
   scene="L'avatar pose le mot-symbole FRAMØTION ; la carte de message « Écris-moi… » se déplie (la rime de la notification du début) ; un curseur clique « S'abonner » ; les 4 réseaux s'allument ; tenue vivante",
   hin="HS7 : flou 8 px ; l'avatar rond de James (240 u, anneau vert-bleu) au centre haut, x 540, y 350, échelle 1,15 ; rien d'autre sauf le papier ; tête de lecture à 32.06 s (x 892) ; aucun sous-titre ; papier clair, grain 14 %",
-  hout="aucun (fin du film : tenue vivante jusqu'à 36.68, la tête de lecture arrive au bout de la règle)",
+  hout="HS8 : iris vert-bleu : un cercle (rayon 0 → 2492 u) s'ouvre depuis le bouton « Abonné ✓ » (centre x 540, y 1215) à 38.63 s ; la carte de fin est figée dans son dernier état (bouton « Abonné ✓ », les 4 réseaux allumés, la règle arrivée au bout x 1010) ; aucun sous-titre ; papier clair, grain 14 %",
   cues="James@0.00 Framotion@0.24 ton@1.26 monteur@1.38 vidéo@1.76 Écris-moi@2.64 en@2.98 DM@3.06 et@3.24 abonne-toi@3.86",
   scenes=[
   ("0.00 à 2.64", 1, "« James Framotion, ton monteur vidéo. » : le mot-symbole",
@@ -243,14 +243,37 @@ FRAMES = [
   ("2.64 à 4.62", 2, "« Écris-moi en DM et abonne-toi ! » : le clic",
    "TEXTE ÉCRAN : « Écris-moi en [boîte : DM] et abonne-toi ! » (2.64 à 4.4) + [trait : abonne-toi] ; écart synchro.",
    "IMAGE DE DÉPART : la carte de message avec la bulle grise, les icônes alignées.",
-   "ÉTAPES : 2.64 le champ « Écris-moi… » (contour vert-bleu) se déplie (scaleX 0 → 1, 0.3 s) ; 3.06 la boîte se trace sous « DM » ; 3.10 le bouton d'envoi rond vert-bleu pulse (échelle 1 → 1,12 → 1, 0.25 s) ; 3.30 le bouton « 🔔 S'abonner » (vert-bleu) monte sous la carte (flou 10 → 0, expo.out 0.3 s) ; 3.86 le curseur arrive d'un seul mouvement courbe (0.45 s power3.out) de la droite du cadre ; 4.20 clic direct sur « S'abonner » (échelle .92, 0.06 s) + onde vert-bleu qui s'étend et s'efface ; 4.25 le trait vert-bleu se dessine sous « abonne-toi » ; 4.30 le bouton devient « Abonné ✓ » (swap 0.15 s) ; 4.30 à 4.62 tenue vivante : l'onde finit, la tête de lecture arrive au bout de la règle.",
+   "ÉTAPES : 2.64 le champ « Écris-moi… » (contour vert-bleu) se déplie (scaleX 0 → 1, 0.3 s) ; 3.06 la boîte se trace sous « DM » ; 3.10 le bouton d'envoi rond vert-bleu pulse (échelle 1 → 1,12 → 1, 0.25 s) ; 3.30 le bouton « 🔔 S'abonner » (vert-bleu) monte sous la carte (flou 10 → 0, expo.out 0.3 s) ; 3.86 le curseur arrive d'un seul mouvement courbe (0.45 s power3.out) de la droite du cadre ; 4.20 clic direct sur « S'abonner » (échelle .92, 0.06 s) + onde vert-bleu qui s'étend et s'efface ; 4.25 le trait vert-bleu se dessine sous « abonne-toi » ; 4.30 le bouton devient « Abonné ✓ » (swap 0.15 s) ; 4.30 l'onde finit ; la tête de lecture est arrivée au bout de la règle (x 1010 à 4.62).",
    "PISTE CAMÉRA : dérive +30 u/s ; 3.30 à 3.60 cran vers le bouton (échelle 1 → 1,06, expo.out) ; 4.20 à 4.62 dérive lente seulement.",
    "COUCHES ET PROFONDEUR : avant-plan le curseur et l'onde ; sujet la carte et le bouton ; fond le mot-symbole et le halo ; 3 couches.",
    "OBJET-PONT ET VECTEUR : fin du film : le bouton « Abonné ✓ » est le dernier état ; rime : la notification du début devient la carte « Écris-moi… ».",
-   "SON : ping à 2.64, pop à 3.30, clic à 4.20.", "IMAGE CLÉ : 4.30 : la carte « Écris-moi… », le bouton « Abonné ✓ », l'onde, @jamesframotion, la règle arrivée au bout.")]),
+   "SON : ping à 2.64, pop à 3.30, clic à 4.20.", "IMAGE CLÉ : 4.30 : la carte « Écris-moi… », le bouton « Abonné ✓ », l'onde, @jamesframotion, la règle arrivée au bout."),
+  ("4.62 à 6.62", 3, "tenue vivante : les réseaux s'allument un à un, le bouton prépare l'iris",
+   "TEXTE ÉCRAN : aucun sous-titre (la voix est finie à 4.58) ; le sous-titre « Écris-moi en DM et abonne-toi ! » part à 4.62 ; écart aucun texte.",
+   "IMAGE DE DÉPART : la carte « Écris-moi… », le bouton « Abonné ✓ », les 4 réseaux, @jamesframotion, la règle arrivée au bout.",
+   "ÉTAPES : 4.62 le sous-titre part (opacité 1 → 0, flou 6) ; 4.80 les 4 icônes des réseaux s'allument à tour de rôle (TikTok 4.80, Instagram 5.05, Facebook 5.30, YouTube 5.55 ; échelle 1 → 1,15 → 1, lueur vert-bleu clair, 0.25 s chacune) ; 5.10 un deuxième anneau vert-bleu part du bouton et s'élargit (échelle 1 → 3, opacité .5 → 0, 0.7 s) ; 5.70 le bouton « Abonné ✓ » respire une fois (échelle 1 → 1,05 → 1, 0.4 s) ; 6.10 la bulle grise « Hey 😍 … » et le champ « Écris-moi… » glissent de 12 u vers le haut (dérive lente) ; 6.30 le bouton se centre à l'image pour l'iris (immobile).",
+   "PISTE CAMÉRA : dérive linéaire seulement (+12 u/s vers le haut, plus lente que le reste du film) ; aucun cran ; la séquence reste montée jusqu'à 7.37 s sous l'iris.",
+   "COUCHES ET PROFONDEUR : avant-plan l'anneau qui s'élargit ; sujet le bouton et les réseaux ; fond le mot-symbole et le halo ; 3 couches.",
+   "OBJET-PONT ET VECTEUR : le bouton « Abonné ✓ » est le centre de l'iris (x 540, y 1215) : le cercle de la séquence 9 en sort.",
+   "SON : ping à 4.80, 5.05, 5.30, 5.55 (un par réseau) ; riser de 5.9 à 6.6 (avant l'iris) ; impact grave à 6.57 (l'iris s'ouvre).", "IMAGE CLÉ : 5.30 : les 4 réseaux dont Facebook allumé, le deuxième anneau qui part du bouton.")]),
+ dict(n=9, id='09-logo', title="Le logo animé de James", a=38.68, b=44.68, type='cta', bp='logo-assemble-lockup', rules='ambient-glow-bloom',
+  voice="(aucune voix : musique et bruitages seuls)",
+  focal="la vidéo du logo animé de James (fichier fourni, 1080 × 1920, 6.00 s), en plein cadre",
+  scene="L'iris vert-bleu s'ouvre sur le fond sombre de la marque et le logo animé fourni joue en plein cadre (trait, cercle, Ø barré, JAMES FRAMØTION, réseaux, @jamesframotion) ; aucune voix",
+  hin="HS8 : iris vert-bleu : un cercle (rayon 0 → 2492 u) s'ouvre depuis le bouton « Abonné ✓ » (centre x 540, y 1215) à 38.63 s ; la carte de fin est figée dans son dernier état (bouton « Abonné ✓ », les 4 réseaux allumés, la règle arrivée au bout x 1010) ; aucun sous-titre ; papier clair, grain 14 %",
+  hout="aucun (fin du film : le logo tient sa dernière image jusqu'à 44.68, puis noir)",
+  cues="",
+  scenes=[("0.00 à 6.00", 1, "le logo animé fourni joue en plein cadre",
+   "TEXTE ÉCRAN : aucun texte ajouté (les textes JAMES, FRAMØTION et @jamesframotion sont dans la vidéo fournie) ; écart aucun texte.",
+   "IMAGE DE DÉPART : handoff_in : le cercle d'iris qui s'ouvre sur le fond sombre #030B10.",
+   "ÉTAPES : 0.00 la vidéo assets/video/james-framotion-reveal-9x16.mp4 démarre (6.00 s, 1080 × 1920, sans son) ; la suite (trait, cercle blanc à rayons, Ø barré, mot-symbole, réseaux, poignée) est celle de la vidéo ; 5.00 à 6.00 tenue de la dernière image.",
+   "PISTE CAMÉRA : celle de la vidéo fournie (aucune caméra ajoutée).",
+   "COUCHES ET PROFONDEUR : une couche : la vidéo sur le sol sombre.",
+   "OBJET-PONT ET VECTEUR : le cercle d'iris de la séquence 8 devient le cercle blanc du logo.",
+   "SON : musique seule, impact grave à 0.00, whoosh à 0.30, ping à 1.2 (le cercle), pop à 2.3 (le Ø), shimmer à 3.2 (le mot-symbole), pop à 4.0 (les réseaux), aucune voix.", "IMAGE CLÉ : 3.60 : JAMES FRAMØTION net sur le fond vert-bleu sombre, les 4 réseaux qui s'allument.")]),
 ]
 def f(x): return f"{x:.2f}"
-total = round(sum(fr['b']-fr['a'] for fr in FRAMES), 2)
+total = round(sum(fr['b']-fr['a'] for fr in FRAMES), 2)  # 36.68 de voix + 2.00 de tenue + 6.00 de logo = 44.68
 head = f'''---
 format: 1080x1920
 duration: "{total}s"
@@ -267,7 +290,7 @@ patterns: ../patterns/STORYBOARD-CRAFT.md, ../patterns/PATTERNS.md
 
 ## Video direction
 
-- **Un seul monde** (frame.md) : le fil, un réseau social vertical vu de l'intérieur, avec la règle de temps d'un logiciel de montage en haut du cadre. Séquences 1-2 = la douleur (une vidéo à 92 % et un message qui tombe dessus) ; séquence 3 = le pivot ; séquences 4-7 = la solution (les outils, le détail, les services, l'histoire) ; séquence 8 = la carte de fin. Tout est en monde clair (papier #F1EEE7) : pas de flash ni d'iris, la continuité est faite par le défilement. Chaque séquence peint son propre sol sur un calque `class="clip"` de toute sa durée.
+- **Un seul monde** (frame.md) : le fil, un réseau social vertical vu de l'intérieur, avec la règle de temps d'un logiciel de montage en haut du cadre. Séquences 1-2 = la douleur (une vidéo à 92 % et un message qui tombe dessus) ; séquence 3 = le pivot ; séquences 4-7 = la solution (les outils, le détail, les services, l'histoire) ; séquence 8 = la carte de fin ; séquence 9 = le logo animé de James sur fond sombre. Tout est en monde clair (papier #F1EEE7) jusqu'à la séquence 8 : un seul iris vert-bleu (38.63 s) ouvre le logo sombre ; la continuité est faite par le défilement. Chaque séquence peint son propre sol sur un calque `class="clip"` de toute sa durée.
 - **Coutures invisibles** : toutes les séquences s'enchaînent en `cut` ; la continuité est faite par la caméra : chaque couture tombe au sommet du flou d'un défilement du fil et le `handoff_out` de la séquence N est recopié à l'identique dans le `handoff_in` de la séquence N+1. Exceptions voulues : aucune coupe franche.
 - **Texte** (lisible sans le son) : chaque phrase de la voix est un sous-titre bas-centre (zone y 1380 à 1560, rien d'autre dedans) qui arrive MOT PAR MOT sur les temps donnés dans chaque séquence (`mot@secondes`, temps locaux). Un seul mot ou groupe par phrase dans la boîte d'accent (nommé [boîte : …] dans les lignes Scene). Aucun autre texte coloré ou lumineux. Moments typographiques (la phrase EST l'image, centrée, 84 px au plus) : aucun, le sous-titre suffit sur ce film court.
 - **Pics** : seulement les 5 pics nommés [trait : …] (ignores, James, VFX, l'attention, animés, histoire, abonne-toi) : un trait vert-bleu fin sous LE mot clé. Jamais un mot géant ni une grosse boîte.
@@ -281,7 +304,7 @@ patterns: ../patterns/STORYBOARD-CRAFT.md, ../patterns/PATTERNS.md
 - Acte 1 (0.00 à 9.58) : le fil, post « @createur » puis post « @video.en.cours » ; fond papier clair, halo blanc cassé, grain (rend la dérive visible) ; règle de temps en haut.
 - Acte 2 (9.58 à 14.16) : la carte avant/après d'étalonnage, puis le profil de James ; même fond papier.
 - Acte 3 (14.16 à 28.76) : le panneau de montage, la loupe, la grille des services ; même fond.
-- Acte 4 (28.76 à 36.68) : l'avatar, le mot-symbole, la carte « Écris-moi… » ; même fond.
+- Acte 4 (28.76 à 38.68) : l'avatar, le mot-symbole, la carte « Écris-moi… » (2 s de tenue vivante après la voix) ; même fond.\n- Acte 5 (38.68 à 44.68) : le logo animé fourni (assets/video), fond sombre #030B10, aucune voix ; l'iris vert-bleu l'ouvre depuis le bouton « Abonné ✓ ».
 - Couleurs de rôle : accent = ce qui compte (le mot clé, la tête de lecture, la courbe qui tient, le liseré de la tuile en cours) ; négatif = gris (la courbe des autres, les images LOG, la notification qu'on ignore reste sombre).
 
 **SIGNATURES**
@@ -294,11 +317,11 @@ patterns: ../patterns/STORYBOARD-CRAFT.md, ../patterns/PATTERNS.md
 
 **VOIX** : minutage dans `assets/audio/voix-mots.json` ; silences de plus de 0,4 s, chacun écrit comme un plan : 4.40 à 4.86 (la notification se prépare) · 9.84 à 10.28 (la carte avant/après arrive) · 12.62 à 13.12 (le mot-symbole se compose) · 13.72 à 14.16 (le portrait se tient) · 16.18 à 16.70 (la piste A1 s'ouvre) · 24.38 à 24.92 (la tuile DOCUMENTAIRE) · 26.26 à 26.68 (la tuile PODCAST) · 27.06 à 27.50 (la tuile SKETCH) · 27.72 à 28.14 (la tuile SOUS-TITRES ANIMÉS) · 32.90 à 33.32 (le mot-symbole) · 34.16 à 34.70 (la carte se prépare).
 
-**COUPES** (quota narrative : 0 à 4) : 0 coupe franche ; les 7 coutures sont des défilements du fil.
+**COUPES** (quota narrative : 0 à 4) : 0 coupe franche ; 7 coutures sont des défilements du fil et la huitième est l'iris vert-bleu (38.63 s).
 
 **RYTHME** : douleur (0 à 9.58) 6 plans en 9.58 s (6,3 / 10 s) ; solution (9.58 à 36.68) 18 plans en 27.1 s (6,6 / 10 s).
 
-**SON** (temps globaux, calé sur les gestes, pas sur les mots) : whoosh 0.04 · ping 1.30 · pop 2.38 · whoosh 3.55 · riser 9.0 à 9.58 · notification 5.40 · whoosh 7.22 · impact grave 9.68 · impact grave 12.26 · ping 12.73 · pop 13.18 · clic 14.16 · riser 22.0 à 22.9 · pop 23.0, 24.0, 24.5, 25.8, 26.7, 27.5, 28.1 · notification 34.70 · clic 36.26 · pas de musique générée (CC0 fournie par James).
+**SON** (temps globaux, calé sur les gestes, pas sur les mots) : whoosh 0.04 · ping 1.30 · pop 2.38 · whoosh 3.55 · riser 9.0 à 9.58 · notification 5.40 · whoosh 7.22 · impact grave 9.68 · impact grave 12.26 · ping 12.73 · pop 13.18 · clic 14.16 · riser 22.0 à 22.9 · pop 23.0, 24.0, 24.5, 25.8, 26.7, 27.5, 28.1 · notification 34.70 · clic 36.26 · pings 36.5 à 38.2 · riser 37.9 à 38.6 · impact grave 38.68 · logo : whoosh 39.0, ping 39.9, pop 41.0, shimmer 41.9, pop 42.7 · pas de musique générée (CC0 fournie par James) · aucune voix après 36.64.
 '''
 out = [head]
 for fr in FRAMES:

@@ -1,0 +1,213 @@
+<template>
+  <style>
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Bold.otf") format("opentype"); font-weight: 700; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-ExtraBold.otf") format("opentype"); font-weight: 800; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-weight: 700; }
+#root, #root * { box-sizing: border-box; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; color: #0B2229; -webkit-font-smoothing: antialiased; }
+.p8-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.p8-ground { background: radial-gradient(ellipse 1100px 1300px at 50% 30%, #FBF9F4 0%, #F1EEE7 55%, #E4DFD3 100%); }
+.p8-vig { pointer-events: none; background: radial-gradient(ellipse at 50% 42%, rgba(11,34,41,0) 55%, rgba(11,34,41,.14) 100%); }
+.p8-grain { pointer-events: none; opacity: .14; mix-blend-mode: multiply; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+.p8-tick { position: absolute; width: 2px; background: rgba(11,34,41,.28); }
+.p8-tlab { position: absolute; top: 118px; font: 700 19px "JetBrains Mono", monospace; color: rgba(11,34,41,.64); }
+.p8-rail { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #D9E4E4; }
+.p8-fill { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #0C7F8F; transform-origin: 0 50%; }
+.p8-phw { position: absolute; left: 70px; top: 0; width: 0; height: 200px; }
+.p8-ph { position: absolute; left: -2px; top: 96px; width: 4px; height: 104px; background: #0C7F8F; box-shadow: 0 0 18px rgba(12,127,143,.6); }
+.p8-ph::before { content: ""; position: absolute; top: -6px; left: -12px; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 20px solid #0C7F8F; }
+.p8-tc { position: absolute; left: -48px; top: 56px; width: 96px; height: 40px; border-radius: 8px; background: #0C7F8F; }
+.p8-tc b { position: absolute; left: 0; top: 0; width: 96px; text-align: center; font: 800 24px/40px "JetBrains Mono", monospace; color: #fff; opacity: 0; }
+.p8-halo { position: absolute; left: 40px; top: 20px; width: 1000px; height: 900px; opacity: 0; background: radial-gradient(ellipse at 50% 50%, rgba(159,221,229,1) 0%, rgba(159,221,229,.55) 35%, rgba(159,221,229,0) 68%); }
+.p8-av { position: absolute; left: 420px; top: 230px; width: 240px; height: 240px; border-radius: 50%; padding: 9px; background: conic-gradient(from 210deg, #0C7F8F, #9FDDE5, #0C7F8F); box-shadow: 0 24px 60px rgba(11,34,41,.28); }
+.p8-avin { width: 100%; height: 100%; border-radius: 50%; overflow: hidden; border: 7px solid #F1EEE7; }
+.p8-avin img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+.p8-wm { position: absolute; left: 280px; top: 488px; }
+.p8-lt { opacity: 0; }
+.p8-bar { position: absolute; left: 535.5px; top: 483.5px; width: 9px; height: 88px; border-radius: 4px; background: #0C7F8F; box-shadow: 0 0 22px rgba(12,127,143,.55); opacity: 0; }
+.p8-handle { position: absolute; left: 0; top: 590px; width: 1080px; text-align: center; font: 700 32px/32px "JetBrains Mono", monospace; letter-spacing: 1px; color: #4F7077; white-space: nowrap; }
+.p8-hc { opacity: 0; display: inline-block; }
+.p8-sw { position: absolute; top: 650px; width: 84px; height: 84px; opacity: 0; }
+.p8-sglow { position: absolute; left: -26px; top: -26px; width: 136px; height: 136px; border-radius: 50%; background: radial-gradient(circle, rgba(159,221,229,1) 0%, rgba(159,221,229,.5) 45%, rgba(159,221,229,0) 70%); opacity: 0; }
+.p8-soc { position: absolute; left: 0; top: 0; width: 84px; height: 84px; border-radius: 50%; background: #0B2229; display: flex; align-items: center; justify-content: center; }
+.p8-card { position: absolute; left: 90px; top: 955px; width: 900px; height: 318px; border-radius: 44px; background: #fff; box-shadow: 0 40px 90px rgba(11,34,41,.22), 0 0 0 2px rgba(11,34,41,.06); opacity: 0; }
+.p8-bub { position: absolute; left: 34px; top: 34px; width: 640px; padding: 22px 28px; border-radius: 30px; background: #EEF3F3; font: 500 36px/43px "Inter", sans-serif; color: #243F46; opacity: 0; }
+.p8-field { position: absolute; left: 34px; right: 34px; bottom: 34px; height: 112px; border-radius: 60px; border: 4px solid #0C7F8F; display: flex; align-items: center; padding: 0 36px 0 38px; font: 700 40px "Inter", sans-serif; color: #0B2229; opacity: 0; transform-origin: 0 50%; background: #fff; }
+.p8-send { margin-left: auto; width: 78px; height: 78px; border-radius: 50%; background: #0C7F8F; display: flex; align-items: center; justify-content: center; }
+.p8-btn { position: absolute; left: 240px; top: 1318.76px; width: 600px; height: 110px; border-radius: 60px; background: #0C7F8F; box-shadow: 0 22px 50px rgba(12,127,143,.5); opacity: 0; }
+.p8-lab { position: absolute; left: 0; top: 0; width: 600px; height: 110px; display: flex; align-items: center; justify-content: center; gap: 16px; font: 800 44px "Inter", sans-serif; color: #fff; }
+.p8-lab2 { opacity: 0; }
+.p8-rip1 { position: absolute; left: 490px; top: 1323.76px; width: 100px; height: 100px; border-radius: 50%; border: 4px solid #27B2C4; opacity: 0; }
+.p8-rip2 { position: absolute; left: 240px; top: 1318.76px; width: 600px; height: 110px; border-radius: 60px; border: 3px solid #27B2C4; opacity: 0; }
+.p8-rip3 { position: absolute; left: 440px; top: 1273.76px; width: 200px; height: 200px; border-radius: 50%; border: 3px solid #27B2C4; opacity: 0; }
+.p8-cur { position: absolute; left: 0; top: 0; width: 46px; height: 60px; opacity: 0; filter: drop-shadow(0 6px 8px rgba(11,34,41,.35)); }
+.p8-sub { position: absolute; left: 0; top: 1420px; width: 1080px; text-align: center; font: 800 64px/77px "Inter", sans-serif; letter-spacing: -.01em; color: #0B2229; white-space: nowrap; }
+.p8-sw2 { display: inline-block; opacity: 0; }
+.p8-ink { position: relative; display: inline-block; margin: 0 14px; }
+.p8-inkbg { position: absolute; left: -16px; right: -16px; top: 4px; bottom: 0; border-radius: 12px; background: #0C7F8F; transform-origin: 0 50%; transform: scaleX(0); }
+.p8-inktx { position: relative; }
+.p8-sw2.inb { color: #fff; }
+.p8-pk { position: relative; display: inline-block; }
+.p8-trait { position: absolute; left: -6px; right: -6px; bottom: -14px; height: 9px; border-radius: 9px; background: #0C7F8F; transform-origin: 0 50%; opacity: 0; }
+</style>
+
+  <div id="root" data-composition-id="08-fin" data-width="1080" data-height="1920" data-duration="6.62">
+    <div id="p8-ground" class="clip p8-layer p8-ground" data-start="0" data-duration="7.37" data-track-index="0"></div>
+    <div id="p8-header" class="clip p8-layer" data-start="0" data-duration="7.37" data-track-index="2" style="z-index:3">
+      <div class="p8-rail"></div><div id="p8-fill" class="p8-fill"></div><i class="p8-tick" style="left:70.0px;top:150px;height:26px"></i><i class="p8-tick" style="left:95.6px;top:162px;height:14px"></i><i class="p8-tick" style="left:121.3px;top:162px;height:14px"></i><i class="p8-tick" style="left:146.9px;top:162px;height:14px"></i><i class="p8-tick" style="left:172.5px;top:162px;height:14px"></i><i class="p8-tick" style="left:198.1px;top:150px;height:26px"></i><b class="p8-tlab" style="left:204.1px">00:05</b><i class="p8-tick" style="left:223.8px;top:162px;height:14px"></i><i class="p8-tick" style="left:249.4px;top:162px;height:14px"></i><i class="p8-tick" style="left:275.0px;top:162px;height:14px"></i><i class="p8-tick" style="left:300.6px;top:162px;height:14px"></i><i class="p8-tick" style="left:326.3px;top:150px;height:26px"></i><b class="p8-tlab" style="left:332.3px">00:10</b><i class="p8-tick" style="left:351.9px;top:162px;height:14px"></i><i class="p8-tick" style="left:377.5px;top:162px;height:14px"></i><i class="p8-tick" style="left:403.2px;top:162px;height:14px"></i><i class="p8-tick" style="left:428.8px;top:162px;height:14px"></i><i class="p8-tick" style="left:454.4px;top:150px;height:26px"></i><b class="p8-tlab" style="left:460.4px">00:15</b><i class="p8-tick" style="left:480.0px;top:162px;height:14px"></i><i class="p8-tick" style="left:505.7px;top:162px;height:14px"></i><i class="p8-tick" style="left:531.3px;top:162px;height:14px"></i><i class="p8-tick" style="left:556.9px;top:162px;height:14px"></i><i class="p8-tick" style="left:582.5px;top:150px;height:26px"></i><b class="p8-tlab" style="left:588.5px">00:20</b><i class="p8-tick" style="left:608.2px;top:162px;height:14px"></i><i class="p8-tick" style="left:633.8px;top:162px;height:14px"></i><i class="p8-tick" style="left:659.4px;top:162px;height:14px"></i><i class="p8-tick" style="left:685.0px;top:162px;height:14px"></i><i class="p8-tick" style="left:710.7px;top:150px;height:26px"></i><b class="p8-tlab" style="left:716.7px">00:25</b><i class="p8-tick" style="left:736.3px;top:162px;height:14px"></i><i class="p8-tick" style="left:761.9px;top:162px;height:14px"></i><i class="p8-tick" style="left:787.6px;top:162px;height:14px"></i><i class="p8-tick" style="left:813.2px;top:162px;height:14px"></i><i class="p8-tick" style="left:838.8px;top:150px;height:26px"></i><b class="p8-tlab" style="left:844.8px">00:30</b><i class="p8-tick" style="left:864.4px;top:162px;height:14px"></i><i class="p8-tick" style="left:890.1px;top:162px;height:14px"></i><i class="p8-tick" style="left:915.7px;top:162px;height:14px"></i><i class="p8-tick" style="left:941.3px;top:162px;height:14px"></i><i class="p8-tick" style="left:966.9px;top:150px;height:26px"></i><b class="p8-tlab" style="left:972.9px">00:35</b><i class="p8-tick" style="left:992.6px;top:162px;height:14px"></i>
+      <div id="p8-phw" class="p8-phw"><div class="p8-ph"></div><div class="p8-tc"><b id="p8-t0">00:32</b><b id="p8-t1">00:33</b><b id="p8-t2">00:34</b><b id="p8-t3">00:35</b><b id="p8-t4">00:36</b></div></div>
+    </div>
+    <div id="p8-world" class="clip p8-layer" data-start="0" data-duration="7.37" data-track-index="1" style="z-index:2">
+      <div id="p8-back" class="p8-layer"><div id="p8-backi" class="p8-layer">
+        <div id="p8-halo" class="p8-halo"></div>
+        <div id="p8-avatar" class="p8-av"><div class="p8-avin"><img src="assets/img/fx/portrait.jpg" alt=""></div></div>
+        <svg id="p8-wm" class="p8-wm" width="520" height="80" viewBox="0 0 520 80" aria-hidden="true"><g class="p8-lt" data-i="0" fill="#0B2229"><circle cx="15.6" cy="11.3" r="3.3"/><circle cx="25.0" cy="11.3" r="3.3"/><circle cx="34.4" cy="11.3" r="3.3"/><circle cx="43.8" cy="11.3" r="3.3"/><circle cx="53.2" cy="11.3" r="3.3"/><circle cx="15.6" cy="20.7" r="3.3"/><circle cx="15.6" cy="30.1" r="3.3"/><circle cx="15.6" cy="39.5" r="3.3"/><circle cx="25.0" cy="39.5" r="3.3"/><circle cx="34.4" cy="39.5" r="3.3"/><circle cx="43.8" cy="39.5" r="3.3"/><circle cx="15.6" cy="48.9" r="3.3"/><circle cx="15.6" cy="58.3" r="3.3"/><circle cx="15.6" cy="67.7" r="3.3"/></g><g class="p8-lt" data-i="1" fill="#0B2229"><circle cx="72.0" cy="11.3" r="3.3"/><circle cx="81.4" cy="11.3" r="3.3"/><circle cx="90.8" cy="11.3" r="3.3"/><circle cx="100.2" cy="11.3" r="3.3"/><circle cx="72.0" cy="20.7" r="3.3"/><circle cx="109.6" cy="20.7" r="3.3"/><circle cx="72.0" cy="30.1" r="3.3"/><circle cx="109.6" cy="30.1" r="3.3"/><circle cx="72.0" cy="39.5" r="3.3"/><circle cx="81.4" cy="39.5" r="3.3"/><circle cx="90.8" cy="39.5" r="3.3"/><circle cx="100.2" cy="39.5" r="3.3"/><circle cx="72.0" cy="48.9" r="3.3"/><circle cx="90.8" cy="48.9" r="3.3"/><circle cx="72.0" cy="58.3" r="3.3"/><circle cx="100.2" cy="58.3" r="3.3"/><circle cx="72.0" cy="67.7" r="3.3"/><circle cx="109.6" cy="67.7" r="3.3"/></g><g class="p8-lt" data-i="2" fill="#0B2229"><circle cx="137.8" cy="11.3" r="3.3"/><circle cx="147.2" cy="11.3" r="3.3"/><circle cx="156.6" cy="11.3" r="3.3"/><circle cx="128.4" cy="20.7" r="3.3"/><circle cx="166.0" cy="20.7" r="3.3"/><circle cx="128.4" cy="30.1" r="3.3"/><circle cx="166.0" cy="30.1" r="3.3"/><circle cx="128.4" cy="39.5" r="3.3"/><circle cx="137.8" cy="39.5" r="3.3"/><circle cx="147.2" cy="39.5" r="3.3"/><circle cx="156.6" cy="39.5" r="3.3"/><circle cx="166.0" cy="39.5" r="3.3"/><circle cx="128.4" cy="48.9" r="3.3"/><circle cx="166.0" cy="48.9" r="3.3"/><circle cx="128.4" cy="58.3" r="3.3"/><circle cx="166.0" cy="58.3" r="3.3"/><circle cx="128.4" cy="67.7" r="3.3"/><circle cx="166.0" cy="67.7" r="3.3"/></g><g class="p8-lt" data-i="3" fill="#0B2229"><circle cx="184.8" cy="11.3" r="3.3"/><circle cx="222.4" cy="11.3" r="3.3"/><circle cx="184.8" cy="20.7" r="3.3"/><circle cx="194.2" cy="20.7" r="3.3"/><circle cx="213.0" cy="20.7" r="3.3"/><circle cx="222.4" cy="20.7" r="3.3"/><circle cx="184.8" cy="30.1" r="3.3"/><circle cx="203.6" cy="30.1" r="3.3"/><circle cx="222.4" cy="30.1" r="3.3"/><circle cx="184.8" cy="39.5" r="3.3"/><circle cx="203.6" cy="39.5" r="3.3"/><circle cx="222.4" cy="39.5" r="3.3"/><circle cx="184.8" cy="48.9" r="3.3"/><circle cx="222.4" cy="48.9" r="3.3"/><circle cx="184.8" cy="58.3" r="3.3"/><circle cx="222.4" cy="58.3" r="3.3"/><circle cx="184.8" cy="67.7" r="3.3"/><circle cx="222.4" cy="67.7" r="3.3"/></g><g class="p8-lt" data-i="4" fill="#0B2229"><circle cx="250.6" cy="11.3" r="3.3"/><circle cx="260.0" cy="11.3" r="3.3"/><circle cx="269.4" cy="11.3" r="3.3"/><circle cx="241.2" cy="20.7" r="3.3"/><circle cx="278.8" cy="20.7" r="3.3"/><circle cx="241.2" cy="30.1" r="3.3"/><circle cx="278.8" cy="30.1" r="3.3"/><circle cx="241.2" cy="39.5" r="3.3"/><circle cx="278.8" cy="39.5" r="3.3"/><circle cx="241.2" cy="48.9" r="3.3"/><circle cx="278.8" cy="48.9" r="3.3"/><circle cx="241.2" cy="58.3" r="3.3"/><circle cx="278.8" cy="58.3" r="3.3"/><circle cx="250.6" cy="67.7" r="3.3"/><circle cx="260.0" cy="67.7" r="3.3"/><circle cx="269.4" cy="67.7" r="3.3"/></g><g class="p8-lt" data-i="5" fill="#0B2229"><circle cx="297.6" cy="11.3" r="3.3"/><circle cx="307.0" cy="11.3" r="3.3"/><circle cx="316.4" cy="11.3" r="3.3"/><circle cx="325.8" cy="11.3" r="3.3"/><circle cx="335.2" cy="11.3" r="3.3"/><circle cx="316.4" cy="20.7" r="3.3"/><circle cx="316.4" cy="30.1" r="3.3"/><circle cx="316.4" cy="39.5" r="3.3"/><circle cx="316.4" cy="48.9" r="3.3"/><circle cx="316.4" cy="58.3" r="3.3"/><circle cx="316.4" cy="67.7" r="3.3"/></g><g class="p8-lt" data-i="6" fill="#0B2229"><circle cx="363.4" cy="11.3" r="3.3"/><circle cx="372.8" cy="11.3" r="3.3"/><circle cx="382.2" cy="11.3" r="3.3"/><circle cx="372.8" cy="20.7" r="3.3"/><circle cx="372.8" cy="30.1" r="3.3"/><circle cx="372.8" cy="39.5" r="3.3"/><circle cx="372.8" cy="48.9" r="3.3"/><circle cx="372.8" cy="58.3" r="3.3"/><circle cx="363.4" cy="67.7" r="3.3"/><circle cx="372.8" cy="67.7" r="3.3"/><circle cx="382.2" cy="67.7" r="3.3"/></g><g class="p8-lt" data-i="7" fill="#0B2229"><circle cx="419.8" cy="11.3" r="3.3"/><circle cx="429.2" cy="11.3" r="3.3"/><circle cx="438.6" cy="11.3" r="3.3"/><circle cx="410.4" cy="20.7" r="3.3"/><circle cx="448.0" cy="20.7" r="3.3"/><circle cx="410.4" cy="30.1" r="3.3"/><circle cx="448.0" cy="30.1" r="3.3"/><circle cx="410.4" cy="39.5" r="3.3"/><circle cx="448.0" cy="39.5" r="3.3"/><circle cx="410.4" cy="48.9" r="3.3"/><circle cx="448.0" cy="48.9" r="3.3"/><circle cx="410.4" cy="58.3" r="3.3"/><circle cx="448.0" cy="58.3" r="3.3"/><circle cx="419.8" cy="67.7" r="3.3"/><circle cx="429.2" cy="67.7" r="3.3"/><circle cx="438.6" cy="67.7" r="3.3"/></g><g class="p8-lt" data-i="8" fill="#0B2229"><circle cx="466.8" cy="11.3" r="3.3"/><circle cx="504.4" cy="11.3" r="3.3"/><circle cx="466.8" cy="20.7" r="3.3"/><circle cx="476.2" cy="20.7" r="3.3"/><circle cx="504.4" cy="20.7" r="3.3"/><circle cx="466.8" cy="30.1" r="3.3"/><circle cx="485.6" cy="30.1" r="3.3"/><circle cx="504.4" cy="30.1" r="3.3"/><circle cx="466.8" cy="39.5" r="3.3"/><circle cx="495.0" cy="39.5" r="3.3"/><circle cx="504.4" cy="39.5" r="3.3"/><circle cx="466.8" cy="48.9" r="3.3"/><circle cx="504.4" cy="48.9" r="3.3"/><circle cx="466.8" cy="58.3" r="3.3"/><circle cx="504.4" cy="58.3" r="3.3"/><circle cx="466.8" cy="67.7" r="3.3"/><circle cx="504.4" cy="67.7" r="3.3"/></g></svg>
+        <div id="p8-obar" class="p8-bar"></div>
+        <div id="p8-handle" class="p8-handle"><span class="p8-hc">@</span><span class="p8-hc">j</span><span class="p8-hc">a</span><span class="p8-hc">m</span><span class="p8-hc">e</span><span class="p8-hc">s</span><span class="p8-hc">f</span><span class="p8-hc">r</span><span class="p8-hc">a</span><span class="p8-hc">m</span><span class="p8-hc">o</span><span class="p8-hc">t</span><span class="p8-hc">i</span><span class="p8-hc">o</span><span class="p8-hc">n</span></div>
+        <div class="p8-sw" style="left:315px"><i class="p8-sglow"></i><div class="p8-soc"><svg width="46" height="46" viewBox="0 0 24 24" fill="#fff"><path d="M16 3c.3 2.3 1.7 3.9 4 4.1v3.2c-1.5 0-2.9-.5-4-1.3v6.2a5.6 5.6 0 1 1-5.6-5.6c.3 0 .6 0 .9.1v3.3a2.4 2.4 0 1 0 1.5 2.2V3H16z"/></svg></div></div><div class="p8-sw" style="left:437px"><i class="p8-sglow"></i><div class="p8-soc"><svg width="46" height="46" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.3" cy="6.7" r="1" fill="#fff"/></svg></div></div><div class="p8-sw" style="left:559px"><i class="p8-sglow"></i><div class="p8-soc"><svg width="46" height="46" viewBox="0 0 24 24" fill="#fff"><path d="M13.5 21v-8h2.7l.4-3.2h-3.1V7.8c0-.9.3-1.5 1.6-1.5h1.6V3.4c-.3 0-1.2-.1-2.3-.1-2.3 0-3.9 1.4-3.9 4v2.5H7.8V13h2.7v8h3z"/></svg></div></div><div class="p8-sw" style="left:681px"><i class="p8-sglow"></i><div class="p8-soc"><svg width="50" height="50" viewBox="0 0 24 24" fill="#fff"><path d="M21.6 7.2a2.5 2.5 0 0 0-1.8-1.8C18.2 5 12 5 12 5s-6.2 0-7.8.4A2.5 2.5 0 0 0 2.4 7.2C2 8.8 2 12 2 12s0 3.2.4 4.8a2.5 2.5 0 0 0 1.8 1.8C5.8 19 12 19 12 19s6.2 0 7.8-.4a2.5 2.5 0 0 0 1.8-1.8c.4-1.6.4-4.8.4-4.8s0-3.2-.4-4.8zM10 15V9l5.2 3L10 15z"/></svg></div></div>
+      </div></div>
+      <div id="p8-front" class="p8-layer"><div id="p8-fronti" class="p8-layer">
+        <div id="p8-card" class="p8-card">
+          <div id="p8-bub" class="p8-bub">Hey 😍 tu fais quoi ce soir ?</div>
+          <div id="p8-field" class="p8-field">Écris-moi…<span id="p8-send" class="p8-send"><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></span></div>
+        </div>
+        <div id="p8-btn" class="p8-btn"><div id="p8-lab1" class="p8-lab"><svg width="46" height="46" viewBox="0 0 24 24" fill="#fff"><path d="M12 2.5a1.6 1.6 0 0 1 1.6 1.6v.5c2.6.7 4.4 3 4.4 5.8v3.3l1.8 2.6c.4.6 0 1.4-.8 1.4H5c-.8 0-1.2-.8-.8-1.4L6 13.7V10.4c0-2.8 1.8-5.1 4.4-5.8v-.5A1.6 1.6 0 0 1 12 2.5zM9.6 19h4.8a2.4 2.4 0 0 1-4.8 0z"/></svg><span>S'abonner</span></div><div id="p8-lab2" class="p8-lab p8-lab2"><span>Abonné</span><svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.8l5 5L19.5 7"/></svg></div></div>
+        <div id="p8-rip1" class="p8-rip1"></div>
+        <div id="p8-rip2" class="p8-rip2"></div>
+        <div id="p8-rip3" class="p8-rip3" data-layout-allow-overflow></div>
+        <div id="p8-cur" class="p8-cur" data-layout-allow-overflow><svg width="46" height="60" viewBox="0 0 46 60"><path d="M2 2 L2 46 L13 36 L21 55 L29 51.500 L21 33 L36 33 Z" fill="#fff" stroke="#0B2229" stroke-width="3.500" stroke-linejoin="round"/></svg></div>
+      </div></div>
+    </div>
+    <div id="p8-subs" class="clip p8-layer" data-start="0" data-duration="7.37" data-track-index="3" style="z-index:4">
+      <div id="p8-s1" class="p8-sub"><span class="p8-sw2" data-cue="0.00">James</span> <span class="p8-ink"><i class="p8-inkbg" data-trace="0.20"></i><span class="p8-inktx"><span class="p8-sw2 inb" data-cue="0.24">Framotion</span></span></span><span class="p8-sw2" data-cue="0.50" style="margin-left:-8px">,</span></div><div id="p8-s2" class="p8-sub"><span class="p8-sw2" data-cue="1.26">ton</span> <span class="p8-sw2" data-cue="1.38">monteur</span> <span class="p8-sw2" data-cue="1.76">vidéo.</span></div><div id="p8-s3" class="p8-sub"><span class="p8-sw2" data-cue="2.64">Écris-moi</span> <span class="p8-sw2" data-cue="2.98">en</span> <span class="p8-ink"><i class="p8-inkbg" data-trace="3.02"></i><span class="p8-inktx"><span class="p8-sw2 inb" data-cue="3.06">DM</span></span></span> <span class="p8-sw2" data-cue="3.24">et</span> <span class="p8-pk"><span class="p8-sw2" data-cue="3.86">abonne-toi</span><i class="p8-trait" id="p8-trait"></i></span><span class="p8-sw2" data-cue="4.30">&nbsp;!</span></div>
+    </div>
+    <div id="p8-vig" class="clip p8-layer p8-vig" data-start="0" data-duration="7.37" data-track-index="4" style="z-index:5"></div>
+    <div id="p8-grain" class="clip p8-layer p8-grain" data-start="0" data-duration="7.37" data-track-index="5" style="z-index:6"></div>
+  </div>
+
+  <script src="assets/vendor/gsap-3.14.2.min.js"></script>
+  <script>
+    (function () {
+      var FID = "08-fin", DUR = 7.37;
+      var root = document.querySelector('[data-composition-id="' + FID + '"]');
+      function $(n) { return root.querySelector("#p8-" + n); }
+      function qa(sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+      var tl = gsap.timeline({ paused: true });
+      function ft(el, a, b, t) { b.immediateRender = (t === 0); tl.fromTo(el, a, b, t); }
+      function fl(el, a, b, t) { b.immediateRender = false; tl.fromTo(el, a, b, t); }
+
+      // ---------- états de départ (handoff_in : l'avatar seul, flou 8 px, échelle 1,15 ; règle à x 892) ----------
+      gsap.set($("backi"), { transformOrigin: "540px 527px" });
+      gsap.set($("fronti"), { transformOrigin: "540px 1373.76px" });
+      gsap.set($("card"), { rotation: -1, transformOrigin: "50% 50%" });
+      gsap.set($("cur"), { x: 1150, y: 1090, transformOrigin: "0px 0px" });
+      gsap.set($("fill"), { scaleX: 822 / 940 });
+      gsap.set($("t0"), { opacity: 1 });
+
+      // ---------- la règle de temps : x 892 → 1010 en 4.62 s (linéaire), puis immobile ----------
+      tl.fromTo($("fill"), { scaleX: 822 / 940 }, { scaleX: 1, duration: 4.62, ease: "none", immediateRender: true }, 0);
+      tl.fromTo($("phw"), { x: 822 }, { x: 940, duration: 4.62, ease: "none", immediateRender: true }, 0);
+      [["t0", "t1", 0.94], ["t1", "t2", 1.94], ["t2", "t3", 2.94], ["t3", "t4", 3.94]].forEach(function (s) {
+        tl.set($(s[0]), { opacity: 0 }, s[2]); tl.set($(s[1]), { opacity: 1 }, s[2]);
+      });
+
+      // ---------- dérive : +30 u/s jusqu'à 4.62, puis +12 u/s jusqu'à 6.30 (le bouton est alors à y 1215, immobile) ----------
+      // premier plan (carte, bouton) : plein régime ; fond (avatar, mot) : parallaxe 10 %
+      tl.fromTo($("front"), { y: 0 }, { y: -138.6, duration: 4.62, ease: "none", immediateRender: true }, 0);
+      fl($("front"), { y: -138.6 }, { y: -158.76, duration: 1.68, ease: "none" }, 4.62);
+      tl.fromTo($("back"), { y: 0 }, { y: -13.86, duration: 4.62, ease: "none", immediateRender: true }, 0);
+      fl($("back"), { y: -13.86 }, { y: -15.876, duration: 1.68, ease: "none" }, 4.62);
+      // crans de caméra
+      fl($("backi"), { scale: 1 }, { scale: 1.04, duration: 0.4, ease: "expo.out" }, 0.40);
+      fl($("fronti"), { scale: 1 }, { scale: 1.04, duration: 0.3, ease: "expo.out" }, 3.30);
+
+      // ---------- scène 1 : l'avatar se pose, le mot-symbole se compose ----------
+      ft($("avatar"), { scale: 1.15, filter: "blur(8px)" }, { scale: 1, filter: "blur(0px)", duration: 0.25, ease: "expo.out" }, 0);
+      // halo vert-bleu clair : floraison puis respiration bornée (4 segments finis)
+      fl($("halo"), { opacity: 0, scale: 0.85 }, { opacity: 0.34, scale: 1, duration: 1.0, ease: "power2.out" }, 0.30);
+      fl($("halo"), { opacity: 0.34, scale: 1 }, { opacity: 0.40, scale: 1.03, duration: 1.5, ease: "sine.inOut" }, 1.30);
+      fl($("halo"), { opacity: 0.40, scale: 1.03 }, { opacity: 0.33, scale: 1, duration: 1.5, ease: "sine.inOut" }, 2.80);
+      fl($("halo"), { opacity: 0.33, scale: 1 }, { opacity: 0.40, scale: 1.03, duration: 1.5, ease: "sine.inOut" }, 4.30);
+      fl($("halo"), { opacity: 0.40, scale: 1.03 }, { opacity: 0.33, scale: 1, duration: 1.5, ease: "sine.inOut" }, 5.80);
+      // FRAMØTION : les lettres arrivent des deux côtés
+      qa(".p8-lt").forEach(function (g, i) {
+        var d = i - 4, ad = Math.abs(d), sg = d < 0 ? -1 : 1;
+        var from = d === 0 ? { opacity: 0, y: 26 } : { opacity: 0, x: sg * 90 };
+        var to = d === 0 ? { opacity: 1, y: 0, duration: 0.5, ease: "expo.out" } : { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" };
+        fl(g, from, to, 0.40 + 0.025 * (4 - ad));
+      });
+      // la barre du Ø (28°)
+      fl($("obar"), { opacity: 1, scaleY: 0, rotation: 28 }, { scaleY: 1, rotation: 28, duration: 0.25, ease: "power3.out" }, 0.88);
+      // @jamesframotion s'écrit
+      qa(".p8-hc").forEach(function (c, i) { fl(c, { opacity: 0 }, { opacity: 1, duration: 0.06, ease: "none" }, 0.90 + 0.02 * i); });
+      // les 4 réseaux montent un à un
+      var sws = qa(".p8-sw");
+      sws.forEach(function (w, i) {
+        fl(w, { opacity: 0, y: 46, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 1.80 + 0.1 * i);
+      });
+
+      // ---------- la carte « Écris-moi… » : la notification du début, rejouée ----------
+      fl($("card"), { opacity: 0, y: -24, clipPath: "inset(0px -140px 318px -140px round 44px)" }, { opacity: 1, y: 0, clipPath: "inset(-40px -140px -160px -140px round 44px)", duration: 0.45, ease: "expo.out" }, 2.30);
+      fl($("bub"), { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.25, ease: "power2.out" }, 2.40);
+      fl($("field"), { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.3, ease: "power3.out" }, 2.64);
+      fl($("send"), { scale: 1 }, { scale: 1.12, duration: 0.125, ease: "power2.out" }, 3.10);
+      fl($("send"), { scale: 1.12 }, { scale: 1, duration: 0.125, ease: "power2.in" }, 3.225);
+      // le bouton « S'abonner » monte sous la carte
+      fl($("btn"), { opacity: 0, y: 30, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 3.30);
+
+      // ---------- le curseur : un seul mouvement courbe, puis clic direct ----------
+      fl($("cur"), { opacity: 0 }, { opacity: 1, duration: 0.04, ease: "none" }, 3.86);
+      fl($("cur"), { x: 1150 }, { x: 546, duration: 0.45, ease: "power3.out" }, 3.86);
+      fl($("cur"), { y: 1090 }, { y: 1382, duration: 0.45, ease: "power2.out" }, 3.86);
+      fl($("cur"), { scale: 1 }, { scale: 0.85, duration: 0.06, ease: "power2.in", yoyo: true, repeat: 1 }, 4.20);
+      fl($("btn"), { scale: 1 }, { scale: 0.92, duration: 0.06, ease: "power2.in", yoyo: true, repeat: 1 }, 4.20);
+      // onde du clic
+      fl($("rip1"), { opacity: 0.55, scale: 0.2 }, { opacity: 0, scale: 2.3, duration: 0.3, ease: "power2.out" }, 4.20);
+      fl($("rip2"), { opacity: 0.6, scale: 1 }, { opacity: 0, scale: 1.35, duration: 0.35, ease: "power2.out" }, 4.22);
+      // le bouton devient « Abonné ✓ »
+      fl($("lab1"), { opacity: 1 }, { opacity: 0, duration: 0.15, ease: "power1.out" }, 4.30);
+      fl($("lab2"), { opacity: 0, y: 8 }, { opacity: 1, y: 0, duration: 0.15, ease: "power1.out" }, 4.30);
+      // le curseur s'éloigne
+      fl($("cur"), { x: 546 }, { x: 760, duration: 0.45, ease: "power2.out" }, 4.50);
+      fl($("cur"), { y: 1382 }, { y: 1290, duration: 0.45, ease: "power2.out" }, 4.50);
+      fl($("cur"), { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power1.in" }, 4.55);
+
+      // ---------- scène 3 : tenue vivante ----------
+      var lit = [4.80, 5.05, 5.30, 5.55];
+      qa(".p8-sw").forEach(function (w, i) {
+        var soc = w.querySelector(".p8-soc"), gl = w.querySelector(".p8-sglow"), T = lit[i];
+        fl(soc, { scale: 1 }, { scale: 1.15, duration: 0.125, ease: "power2.out" }, T);
+        fl(soc, { scale: 1.15 }, { scale: 1, duration: 0.125, ease: "power2.in" }, T + 0.125);
+        fl(soc, { backgroundColor: "#0B2229" }, { backgroundColor: "#0C7F8F", duration: 0.2, ease: "power1.out" }, T);
+        fl(gl, { opacity: 0 }, { opacity: 0.9, duration: 0.125, ease: "power2.out" }, T);
+        fl(gl, { opacity: 0.9 }, { opacity: 0.45, duration: 0.25, ease: "power1.out" }, T + 0.125);
+      });
+      fl($("rip3"), { opacity: 0.5, scale: 1 }, { opacity: 0, scale: 3.2, duration: 0.7, ease: "power2.out" }, 5.10);
+      fl($("btn"), { scale: 1 }, { scale: 1.05, duration: 0.2, ease: "sine.out" }, 5.70);
+      fl($("btn"), { scale: 1.05 }, { scale: 1, duration: 0.2, ease: "sine.in" }, 5.90);
+      fl($("bub"), { y: 0 }, { y: -12, duration: 1.27, ease: "none" }, 6.10);
+      fl($("field"), { y: 0 }, { y: -12, duration: 1.27, ease: "none" }, 6.10);
+
+      // ---------- la phrase : mot par mot, trois morceaux qui se remplacent ----------
+      qa(".p8-sub .p8-sw2").forEach(function (wd) {
+        var t0 = parseFloat(wd.getAttribute("data-cue")), inb = wd.classList.contains("inb");
+        fl(wd, { opacity: 0, y: 10, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, t0);
+        if (!inb) fl(wd, { color: "rgba(11,34,41,0.35)" }, { color: "rgba(11,34,41,1)", duration: 0.2, ease: "power1.out" }, t0 + 0.08);
+      });
+      qa(".p8-inkbg").forEach(function (b) { fl(b, { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, parseFloat(b.getAttribute("data-trace"))); });
+      var trait = $("trait");
+      fl(trait, { opacity: 1, scaleX: 0, rotation: -1.4 }, { scaleX: 1, rotation: -1.4, duration: 0.4, ease: "power2.out" }, 4.25);
+      function subOut(id, t0) {
+        var els = qa("#p8-" + id + " .p8-sw2").concat(qa("#p8-" + id + " .p8-inkbg")).concat(qa("#p8-" + id + " .p8-trait"));
+        fl(els, { opacity: 1, filter: "blur(0px)" }, { opacity: 0, filter: "blur(6px)", duration: 0.12, ease: "power2.in" }, t0);
+      }
+      subOut("s1", 1.10); subOut("s2", 2.48); subOut("s3", 4.62);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines[FID] = tl;
+    })();
+
+  </script>
+</template>
