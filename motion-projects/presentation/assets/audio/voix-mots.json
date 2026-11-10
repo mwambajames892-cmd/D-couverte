@@ -1,0 +1,520 @@
+{
+ "duration": 36.64,
+ "words": [
+  {
+   "w": "Pourquoi",
+   "start": 0.0,
+   "end": 0.3
+  },
+  {
+   "w": "certaines",
+   "start": 0.3,
+   "end": 0.7
+  },
+  {
+   "w": "vidéos",
+   "start": 0.7,
+   "end": 1.1
+  },
+  {
+   "w": "te",
+   "start": 1.1,
+   "end": 1.3
+  },
+  {
+   "w": "gardent",
+   "start": 1.3,
+   "end": 1.64
+  },
+  {
+   "w": "jusqu",
+   "start": 1.64,
+   "end": 1.86
+  },
+  {
+   "w": "'à",
+   "start": 1.86,
+   "end": 2.06
+  },
+  {
+   "w": "la",
+   "start": 2.06,
+   "end": 2.16
+  },
+  {
+   "w": "fin",
+   "start": 2.16,
+   "end": 2.38
+  },
+  {
+   "w": "?",
+   "start": 2.38,
+   "end": 2.98
+  },
+  {
+   "w": "Et",
+   "start": 2.98,
+   "end": 3.06
+  },
+  {
+   "w": "d",
+   "start": 3.06,
+   "end": 3.16
+  },
+  {
+   "w": "'autres",
+   "start": 3.16,
+   "end": 3.26
+  },
+  {
+   "w": "non.",
+   "start": 3.26,
+   "end": 3.5
+  },
+  {
+   "w": "Tu",
+   "start": 3.98,
+   "end": 4.12
+  },
+  {
+   "w": "sais,",
+   "start": 4.12,
+   "end": 4.4
+  },
+  {
+   "w": "celles",
+   "start": 4.86,
+   "end": 5.14
+  },
+  {
+   "w": "où",
+   "start": 5.14,
+   "end": 5.26
+  },
+  {
+   "w": "ton",
+   "start": 5.26,
+   "end": 5.4
+  },
+  {
+   "w": "crush",
+   "start": 5.4,
+   "end": 5.66
+  },
+  {
+   "w": "t",
+   "start": 5.66,
+   "end": 5.82
+  },
+  {
+   "w": "'écrit",
+   "start": 5.82,
+   "end": 6.04
+  },
+  {
+   "w": "enfin,",
+   "start": 6.04,
+   "end": 6.54
+  },
+  {
+   "w": "mais",
+   "start": 6.92,
+   "end": 7.08
+  },
+  {
+   "w": "tu",
+   "start": 7.08,
+   "end": 7.22
+  },
+  {
+   "w": "l",
+   "start": 7.22,
+   "end": 7.38
+  },
+  {
+   "w": "'ignores,",
+   "start": 7.38,
+   "end": 7.66
+  },
+  {
+   "w": "pour",
+   "start": 8.0,
+   "end": 8.08
+  },
+  {
+   "w": "finir",
+   "start": 8.08,
+   "end": 8.38
+  },
+  {
+   "w": "d",
+   "start": 8.38,
+   "end": 8.5
+  },
+  {
+   "w": "'abord",
+   "start": 8.5,
+   "end": 8.66
+  },
+  {
+   "w": "la",
+   "start": 8.66,
+   "end": 8.8
+  },
+  {
+   "w": "vidéo.",
+   "start": 8.8,
+   "end": 9.1
+  },
+  {
+   "w": "Alors,",
+   "start": 9.58,
+   "end": 9.84
+  },
+  {
+   "w": "qu",
+   "start": 10.28,
+   "end": 10.44
+  },
+  {
+   "w": "'est",
+   "start": 10.44,
+   "end": 10.48
+  },
+  {
+   "w": "-ce",
+   "start": 10.48,
+   "end": 10.54
+  },
+  {
+   "w": "qu",
+   "start": 10.54,
+   "end": 10.6
+  },
+  {
+   "w": "'elles",
+   "start": 10.6,
+   "end": 10.66
+  },
+  {
+   "w": "ont",
+   "start": 10.66,
+   "end": 10.82
+  },
+  {
+   "w": "de",
+   "start": 10.82,
+   "end": 10.92
+  },
+  {
+   "w": "plus",
+   "start": 10.92,
+   "end": 11.12
+  },
+  {
+   "w": "?",
+   "start": 11.12,
+   "end": 11.74
+  },
+  {
+   "w": "Moi,",
+   "start": 11.74,
+   "end": 11.94
+  },
+  {
+   "w": "c",
+   "start": 12.26,
+   "end": 12.32
+  },
+  {
+   "w": "'est",
+   "start": 12.32,
+   "end": 12.34
+  },
+  {
+   "w": "James,",
+   "start": 12.34,
+   "end": 12.62
+  },
+  {
+   "w": "monteur",
+   "start": 13.12,
+   "end": 13.4
+  },
+  {
+   "w": "vidéo.",
+   "start": 13.4,
+   "end": 13.72
+  },
+  {
+   "w": "Hook",
+   "start": 14.16,
+   "end": 14.32
+  },
+  {
+   "w": "visuel,",
+   "start": 14.32,
+   "end": 14.8
+  },
+  {
+   "w": "étalonage,",
+   "start": 15.08,
+   "end": 15.76
+  },
+  {
+   "w": "transition,",
+   "start": 15.88,
+   "end": 16.18
+  },
+  {
+   "w": "sound",
+   "start": 16.7,
+   "end": 16.9
+  },
+  {
+   "w": "design,",
+   "start": 16.9,
+   "end": 17.28
+  },
+  {
+   "w": "mask,",
+   "start": 17.6,
+   "end": 17.86
+  },
+  {
+   "w": "fvfx.",
+   "start": 18.22,
+   "end": 18.96
+  },
+  {
+   "w": "Chaque",
+   "start": 19.36,
+   "end": 19.68
+  },
+  {
+   "w": "détail",
+   "start": 19.68,
+   "end": 19.98
+  },
+  {
+   "w": "est",
+   "start": 19.98,
+   "end": 20.14
+  },
+  {
+   "w": "pensé",
+   "start": 20.14,
+   "end": 20.48
+  },
+  {
+   "w": "pour",
+   "start": 20.48,
+   "end": 20.64
+  },
+  {
+   "w": "capter",
+   "start": 20.64,
+   "end": 21.12
+  },
+  {
+   "w": "et",
+   "start": 21.12,
+   "end": 21.54
+  },
+  {
+   "w": "garder",
+   "start": 21.54,
+   "end": 21.9
+  },
+  {
+   "w": "l",
+   "start": 21.9,
+   "end": 22.06
+  },
+  {
+   "w": "'attention.",
+   "start": 22.06,
+   "end": 22.34
+  },
+  {
+   "w": "Publicité,",
+   "start": 22.9,
+   "end": 23.46
+  },
+  {
+   "w": "vidéo",
+   "start": 23.76,
+   "end": 24.0
+  },
+  {
+   "w": "marketing,",
+   "start": 24.0,
+   "end": 24.38
+  },
+  {
+   "w": "documentaire,",
+   "start": 24.92,
+   "end": 25.58
+  },
+  {
+   "w": "clip",
+   "start": 25.82,
+   "end": 25.9
+  },
+  {
+   "w": "musical,",
+   "start": 25.9,
+   "end": 26.26
+  },
+  {
+   "w": "podcast,",
+   "start": 26.68,
+   "end": 27.06
+  },
+  {
+   "w": "sketch,",
+   "start": 27.5,
+   "end": 27.72
+  },
+  {
+   "w": "sous",
+   "start": 28.14,
+   "end": 28.22
+  },
+  {
+   "w": "-titres",
+   "start": 28.22,
+   "end": 28.42
+  },
+  {
+   "w": "animés.",
+   "start": 28.42,
+   "end": 28.76
+  },
+  {
+   "w": "Tu",
+   "start": 28.76,
+   "end": 29.3
+  },
+  {
+   "w": "as",
+   "start": 29.3,
+   "end": 29.38
+  },
+  {
+   "w": "les",
+   "start": 29.38,
+   "end": 29.52
+  },
+  {
+   "w": "images",
+   "start": 29.52,
+   "end": 29.76
+  },
+  {
+   "w": "?",
+   "start": 29.76,
+   "end": 30.3
+  },
+  {
+   "w": "Moi,",
+   "start": 30.3,
+   "end": 30.52
+  },
+  {
+   "w": "j",
+   "start": 30.84,
+   "end": 30.9
+  },
+  {
+   "w": "'en",
+   "start": 30.9,
+   "end": 30.96
+  },
+  {
+   "w": "fais",
+   "start": 30.96,
+   "end": 31.12
+  },
+  {
+   "w": "une",
+   "start": 31.12,
+   "end": 31.26
+  },
+  {
+   "w": "histoire.",
+   "start": 31.26,
+   "end": 31.56
+  },
+  {
+   "w": "James",
+   "start": 32.06,
+   "end": 32.3
+  },
+  {
+   "w": "from",
+   "start": 32.3,
+   "end": 32.54
+  },
+  {
+   "w": "Ocean,",
+   "start": 32.54,
+   "end": 32.9
+  },
+  {
+   "w": "ton",
+   "start": 33.32,
+   "end": 33.44
+  },
+  {
+   "w": "monteur",
+   "start": 33.44,
+   "end": 33.82
+  },
+  {
+   "w": "vidéo.",
+   "start": 33.82,
+   "end": 34.16
+  },
+  {
+   "w": "Écrime",
+   "start": 34.7,
+   "end": 34.94
+  },
+  {
+   "w": "-moi",
+   "start": 34.94,
+   "end": 35.04
+  },
+  {
+   "w": "en",
+   "start": 35.04,
+   "end": 35.12
+  },
+  {
+   "w": "DM",
+   "start": 35.12,
+   "end": 35.3
+  },
+  {
+   "w": "et",
+   "start": 35.3,
+   "end": 35.92
+  },
+  {
+   "w": "abonne",
+   "start": 35.92,
+   "end": 36.2
+  },
+  {
+   "w": "-toi",
+   "start": 36.2,
+   "end": 36.34
+  },
+  {
+   "w": "!",
+   "start": 36.34,
+   "end": 36.58
+  }
+ ]
+}

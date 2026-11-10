@@ -20,6 +20,15 @@ cd "$MD"
 # 2. Le .env vide voulu (ne jamais le supprimer ni y écrire de clé)
 test -f .env || cp .env.example .env
 
+# 2b. Les projets de film enregistrés dans ce dépôt (motion-projects/<nom>) : copiés dans l'atelier s'ils manquent
+PROJ="${CLAUDE_PROJECT_DIR:-$OLDPWD}/motion-projects"
+if [ -d "$PROJ" ]; then
+  for p in "$PROJ"/*/; do
+    n="$(basename "$p")"
+    [ -d "$MD/$n" ] || cp -r "$p" "$MD/$n"
+  done
+fi
+
 # 3. HyperFrames figé par package-lock.json
 hashes=node_modules/.session-start.sha256
 if ! sha256sum --check --status "$hashes" 2>/dev/null; then
