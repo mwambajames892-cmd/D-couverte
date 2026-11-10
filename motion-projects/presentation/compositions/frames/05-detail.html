@@ -1,0 +1,166 @@
+<template>
+  <style>
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Bold.otf") format("opentype"); font-weight: 700; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-ExtraBold.otf") format("opentype"); font-weight: 800; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-weight: 700; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; color: #0B2229; -webkit-font-smoothing: antialiased; }
+.p5-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.p5-ground { background: radial-gradient(ellipse 1100px 1300px at 50% 30%, #FBF9F4 0%, #F1EEE7 55%, #E4DFD3 100%); }
+.p5-vig { pointer-events: none; background: radial-gradient(ellipse at 50% 42%, rgba(11,34,41,0) 55%, rgba(11,34,41,.14) 100%); }
+.p5-grain { pointer-events: none; opacity: .14; mix-blend-mode: multiply; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+.p5-tick { position: absolute; width: 2px; background: rgba(11,34,41,.28); }
+.p5-tlab { position: absolute; top: 118px; font: 700 19px "JetBrains Mono", monospace; color: rgba(11,34,41,.64); }
+.p5-rail { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #D9E4E4; }
+.p5-fill { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #0C7F8F; transform-origin: 0 50%; }
+.p5-phw { position: absolute; left: 70px; top: 0; width: 0; height: 200px; }
+.p5-ph { position: absolute; left: -2px; top: 96px; width: 4px; height: 104px; background: #0C7F8F; box-shadow: 0 0 18px rgba(12,127,143,.6); }
+.p5-ph::before { content: ""; position: absolute; top: -6px; left: -12px; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 20px solid #0C7F8F; }
+.p5-tc { position: absolute; left: -48px; top: 56px; width: 96px; height: 40px; border-radius: 8px; background: #0C7F8F; }
+.p5-tc b { position: absolute; left: 0; top: 0; width: 96px; text-align: center; font: 800 24px/40px "JetBrains Mono", monospace; color: #fff; opacity: 0; }
+.p5-cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 960px; }
+.p5-panel { position: absolute; left: 90px; top: 260px; width: 900px; height: 700px; border-radius: 44px; background: #fff; box-shadow: 0 40px 90px rgba(11,34,41,.22), 0 0 0 2px rgba(11,34,41,.06); filter: blur(10px); overflow: hidden; }
+.p5-panel i { position: absolute; display: block; border-radius: 12px; }
+.p5-cap { position: absolute; left: 240px; top: 880px; width: 600px; height: 420px; border-radius: 28px; overflow: hidden; background: #fff; box-shadow: 0 26px 60px rgba(11,34,41,.28), 0 0 0 6px #fff; filter: blur(10px); }
+.p5-cap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p5-mini { position: absolute; left: 760px; top: 420px; width: 420px; height: 300px; border-radius: 26px; overflow: hidden; background: #fff; box-shadow: 0 26px 60px rgba(11,34,41,.28), 0 0 0 6px #fff; filter: blur(9px); opacity: 0; }
+.p5-mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p5-card { position: absolute; left: 90px; top: 300px; width: 780px; height: 455px; border-radius: 26px; overflow: hidden; background: #0B2229; box-shadow: 0 26px 60px rgba(11,34,41,.28), 0 0 0 6px #fff; opacity: 0; }
+.p5-card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p5-aim { position: absolute; left: 430px; top: 690px; width: 3px; height: 240px; margin-left: -1px; background: #0C7F8F; transform-origin: 50% 0; opacity: 0; }
+.p5-loupe { position: absolute; left: 330px; top: 760px; width: 560px; height: 560px; opacity: 0; }
+.p5-lens { position: absolute; left: 0; top: 0; width: 560px; height: 560px; box-sizing: border-box; border-radius: 50%; border: 12px solid #0C7F8F; overflow: hidden; background: #0B1417; box-shadow: 0 20px 44px rgba(11,34,41,.3); }
+.p5-lens img { position: absolute; left: -148px; top: 49px; width: 800px; height: 466px; display: block; transform-origin: 268px 268px; }
+.p5-hdl { position: absolute; left: -30px; top: 420px; width: 150px; height: 30px; border-radius: 16px; background: #0C7F8F; }
+.p5-sub { position: absolute; left: 0; top: 1420px; width: 1080px; text-align: center; font: 800 64px/77px "Inter", sans-serif; letter-spacing: -.01em; color: #0B2229; white-space: nowrap; }
+.p5-sw { display: inline-block; opacity: 0; }
+.p5-ink { position: relative; display: inline-block; margin: 0 14px; }
+.p5-inkbg { position: absolute; left: -16px; right: -16px; top: 4px; bottom: 0; border-radius: 12px; background: #0C7F8F; transform-origin: 0 50%; transform: scaleX(0); }
+.p5-inktx { position: relative; }
+.p5-sw.inb { color: #fff; }
+.p5-pk { position: relative; display: inline-block; }
+.p5-stk { position: absolute; left: -6px; right: -6px; bottom: -14px; height: 9px; border-radius: 9px; background: #0C7F8F; transform-origin: 0 50%; opacity: 0; }
+</style>
+
+  <div id="root" data-composition-id="05-detail" data-width="1080" data-height="1920" data-duration="3.54">
+    <div id="p5-ground" class="clip p5-layer p5-ground" data-start="0" data-duration="3.54" data-track-index="0"></div>
+    <div id="p5-header" class="clip p5-layer" data-start="0" data-duration="3.54" data-track-index="2" style="z-index:3">
+      <div class="p5-rail"></div><div id="p5-fill" class="p5-fill"></div><div class="p5-rail"></div><div id="p5-fill" class="p5-fill"></div><i class="p5-tick" style="left:70.0px;top:150px;height:26px"></i><i class="p5-tick" style="left:95.6px;top:162px;height:14px"></i><i class="p5-tick" style="left:121.3px;top:162px;height:14px"></i><i class="p5-tick" style="left:146.9px;top:162px;height:14px"></i><i class="p5-tick" style="left:172.5px;top:162px;height:14px"></i><i class="p5-tick" style="left:198.1px;top:150px;height:26px"></i><b class="p5-tlab" style="left:204.1px">00:05</b><i class="p5-tick" style="left:223.8px;top:162px;height:14px"></i><i class="p5-tick" style="left:249.4px;top:162px;height:14px"></i><i class="p5-tick" style="left:275.0px;top:162px;height:14px"></i><i class="p5-tick" style="left:300.6px;top:162px;height:14px"></i><i class="p5-tick" style="left:326.3px;top:150px;height:26px"></i><b class="p5-tlab" style="left:332.3px">00:10</b><i class="p5-tick" style="left:351.9px;top:162px;height:14px"></i><i class="p5-tick" style="left:377.5px;top:162px;height:14px"></i><i class="p5-tick" style="left:403.2px;top:162px;height:14px"></i><i class="p5-tick" style="left:428.8px;top:162px;height:14px"></i><i class="p5-tick" style="left:454.4px;top:150px;height:26px"></i><b class="p5-tlab" style="left:460.4px">00:15</b><i class="p5-tick" style="left:480.0px;top:162px;height:14px"></i><i class="p5-tick" style="left:505.7px;top:162px;height:14px"></i><i class="p5-tick" style="left:531.3px;top:162px;height:14px"></i><i class="p5-tick" style="left:556.9px;top:162px;height:14px"></i><i class="p5-tick" style="left:582.5px;top:150px;height:26px"></i><b class="p5-tlab" style="left:588.5px">00:20</b><i class="p5-tick" style="left:608.2px;top:162px;height:14px"></i><i class="p5-tick" style="left:633.8px;top:162px;height:14px"></i><i class="p5-tick" style="left:659.4px;top:162px;height:14px"></i><i class="p5-tick" style="left:685.0px;top:162px;height:14px"></i><i class="p5-tick" style="left:710.7px;top:150px;height:26px"></i><b class="p5-tlab" style="left:716.7px">00:25</b><i class="p5-tick" style="left:736.3px;top:162px;height:14px"></i><i class="p5-tick" style="left:761.9px;top:162px;height:14px"></i><i class="p5-tick" style="left:787.6px;top:162px;height:14px"></i><i class="p5-tick" style="left:813.2px;top:162px;height:14px"></i><i class="p5-tick" style="left:838.8px;top:150px;height:26px"></i><b class="p5-tlab" style="left:844.8px">00:30</b><i class="p5-tick" style="left:864.4px;top:162px;height:14px"></i><i class="p5-tick" style="left:890.1px;top:162px;height:14px"></i><i class="p5-tick" style="left:915.7px;top:162px;height:14px"></i><i class="p5-tick" style="left:941.3px;top:162px;height:14px"></i><i class="p5-tick" style="left:966.9px;top:150px;height:26px"></i><b class="p5-tlab" style="left:972.9px">00:35</b><i class="p5-tick" style="left:992.6px;top:162px;height:14px"></i>
+      <div id="p5-phw" class="p5-phw"><div class="p5-ph"></div><div class="p5-tc"><b id="p5-t19">00:19</b><b id="p5-t20">00:20</b><b id="p5-t21">00:21</b><b id="p5-t22">00:22</b></div></div>
+    </div>
+    <div id="p5-world" class="clip p5-layer" data-start="0" data-duration="3.54" data-track-index="1" style="z-index:2">
+      <div id="p5-cam" class="p5-cam">
+        <div id="p5-mini" class="p5-mini" data-layout-allow-overflow><img src="assets/img/fx/cadreur.jpg" alt=""></div>
+        <div id="p5-panel" class="p5-panel">
+          <i style="left:34px;top:34px;width:84px;height:84px;border-radius:50%;background:#D9E4E4"></i>
+          <i style="left:140px;top:50px;width:320px;height:22px;background:#E8E4DA"></i>
+          <i style="left:140px;top:90px;width:180px;height:18px;background:#E8E4DA"></i>
+          <i style="left:34px;top:150px;width:832px;height:380px;background:#0B2229;border-radius:28px"></i>
+          <i style="left:60px;top:190px;width:260px;height:46px;background:#27B2C4;border-radius:10px"></i>
+          <i style="left:330px;top:190px;width:200px;height:46px;background:#0C7F8F;border-radius:10px"></i>
+          <i style="left:540px;top:190px;width:290px;height:46px;background:#9FDDE5;border-radius:10px"></i>
+          <i style="left:60px;top:260px;width:360px;height:46px;background:#0B5560;border-radius:10px"></i>
+          <i style="left:430px;top:260px;width:240px;height:46px;background:#27B2C4;border-radius:10px"></i>
+          <i style="left:60px;top:330px;width:200px;height:46px;background:#9FDDE5;border-radius:10px"></i>
+          <i style="left:270px;top:330px;width:420px;height:46px;background:#0C7F8F;border-radius:10px"></i>
+          <i style="left:34px;top:570px;width:92%;height:22px;background:#E8E4DA"></i>
+          <i style="left:34px;top:612px;width:62%;height:22px;background:#E8E4DA"></i>
+        </div>
+        <div id="p5-cap" class="p5-cap"><img src="assets/img/fx/premiere.jpg" alt=""></div>
+        <div id="p5-card" class="p5-card"><img src="assets/img/fx/timeline.jpg" alt=""></div>
+        <div id="p5-aim" class="p5-aim"></div>
+        <div id="p5-loupe" class="p5-loupe" data-layout-allow-overflow>
+          <div class="p5-lens"><img id="p5-zimg" src="assets/img/fx/timeline.jpg" alt=""></div>
+          <div id="p5-hdl" class="p5-hdl"></div>
+        </div>
+      </div>
+    </div>
+    <div id="p5-subs" class="clip p5-layer" data-start="0" data-duration="3.54" data-track-index="3" style="z-index:4">
+      <div id="p5-s1" class="p5-sub"><span class="p5-sw" data-cue="0.00">Chaque</span> <span class="p5-ink"><i class="p5-inkbg" data-trace="0.22"></i><span class="p5-inktx"><span class="p5-sw inb" data-cue="0.32">détail</span></span></span> <span class="p5-sw" data-cue="0.62">est</span> <span class="p5-sw" data-cue="0.78">pensé</span></div>
+      <div id="p5-s2" class="p5-sub"><span class="p5-sw" data-cue="1.12">pour</span> <span class="p5-sw" data-cue="1.28">capter</span> <span class="p5-sw" data-cue="1.76">et</span> <span class="p5-sw" data-cue="2.18">garder</span></div>
+      <div id="p5-s3" class="p5-sub"><span class="p5-pk"><span class="p5-sw" data-cue="2.54">l'attention.</span><i class="p5-stk" data-trace="2.46"></i></span></div>
+    </div>
+    <div id="p5-vig" class="clip p5-layer p5-vig" data-start="0" data-duration="3.54" data-track-index="4" style="z-index:5"></div>
+    <div id="p5-grain" class="clip p5-layer p5-grain" data-start="0" data-duration="3.54" data-track-index="5" style="z-index:6"></div>
+  </div>
+
+  <script src="assets/vendor/gsap-3.14.2.min.js"></script>
+  <script>
+    (function () {
+      var FID = "05-detail", DUR = 3.54;
+      var root = document.querySelector('[data-composition-id="' + FID + '"]');
+      function $(n) { return root.querySelector("#p5-" + n); }
+      function qa(sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+      var tl = gsap.timeline({ paused: true });
+      function ft(el, a, b, t) { b.immediateRender = (t === 0 || t === 0.04); tl.fromTo(el, a, b, t); }
+      function fl(el, a, b, t) { b.immediateRender = false; tl.fromTo(el, a, b, t); }
+
+      // état de départ = handoff_in : panneau qui sort (flou 10), capture centrée en bas, tête à x 566, puce 00:19
+      gsap.set($("card"), { rotation: -2, transformOrigin: "50% 50%" });
+      gsap.set($("mini"), { rotation: 6, transformOrigin: "50% 50%" });
+      gsap.set($("hdl"), { rotation: -38, transformOrigin: "50% 50%" });
+      gsap.set($("loupe"), { transformOrigin: "50% 50%" });
+      gsap.set($("aim"), { rotation: 18, scaleY: 0 });
+      gsap.set($("stk"), { rotation: -1.4, scaleX: 0 });
+      gsap.set($("zimg"), { scale: 1, x: 0 });
+      gsap.set($("fill"), { scaleX: 496 / 940 });
+      gsap.set($("t19"), { opacity: 1 });
+
+      // ---------- la règle de temps : linéaire (x 566 → 657) ----------
+      tl.fromTo($("fill"), { scaleX: 496 / 940 }, { scaleX: 587 / 940, duration: DUR, ease: "none", immediateRender: true }, 0);
+      tl.fromTo($("phw"), { x: 496 }, { x: 587, duration: DUR, ease: "none", immediateRender: true }, 0);
+      [["t19", "t20", 0.64], ["t20", "t21", 1.64], ["t21", "t22", 2.64]].forEach(function (s) {
+        tl.set($(s[0]), { opacity: 0 }, s[2]); tl.set($(s[1]), { opacity: 1 }, s[2]);
+      });
+
+      // ---------- dérive linéaire du monde : +30 u/s vers le haut ----------
+      tl.fromTo($("world"), { y: 0 }, { y: -30 * DUR, duration: DUR, ease: "none", immediateRender: true }, 0);
+
+      // ---------- scène 1 (0.00 à 1.12) ----------
+      // 0.00 le panneau sort vers le haut, la capture le suit
+      ft($("panel"), { y: 0 }, { y: -1000, duration: 0.22, ease: "expo.in" }, 0);
+      fl($("cap"), { y: 0 }, { y: -1300, duration: 0.26, ease: "expo.in" }, 0.04);
+      // 0.10 la carte timeline arrive trop grande et floue
+      fl($("card"), { opacity: 0, scale: 1.4, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 0.10);
+      fl($("mini"), { opacity: 0 }, { opacity: 0.5, duration: 0.3, ease: "power1.out" }, 0.16);
+      // 0.50 le trait de visée se dessine (0.3 s)
+      fl($("aim"), { opacity: 1, scaleY: 0 }, { opacity: 1, scaleY: 1, duration: 0.3, ease: "power2.out" }, 0.50);
+      // 0.85 la loupe naît au bout du trait
+      fl($("loupe"), { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.25, ease: "expo.out" }, 0.85);
+
+      // ---------- scène 2 (1.12 à 3.54) ----------
+      // cran vers la loupe
+      fl($("cam"), { scale: 1 }, { scale: 1.1, duration: 0.38, ease: "expo.out" }, 1.12);
+      // la loupe se remplit : le détail grossit x3, puis glisse
+      fl($("zimg"), { scale: 1 }, { scale: 3, duration: 0.4, ease: "expo.out" }, 1.12);
+      fl($("zimg"), { x: 0 }, { x: -60, duration: 1.0, ease: "none" }, 1.60);
+      // la poignée tourne de -10°
+      fl($("hdl"), { rotation: -38 }, { rotation: -48, duration: 0.3, ease: "power2.inOut" }, 2.60);
+      // 3.10 la loupe rétrécit en un point au centre (x 540, y 760 à la couture)
+      fl($("loupe"), { scale: 1, x: 0, y: 0, filter: "blur(0px)" }, { scale: 0.05, x: -70, y: -173.8, filter: "blur(10px)", duration: 0.3, ease: "power3.in" }, 3.10);
+      // recul de la caméra, flou 10 px au sommet
+      fl($("cam"), { scale: 1.1 }, { scale: 1, duration: 0.44, ease: "expo.in" }, 3.10);
+      fl($("card"), { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.44, ease: "expo.in" }, 3.10);
+      // 3.30 la carte recule
+      fl($("card"), { scale: 1, x: 0 }, { scale: 0.8, x: -30, duration: 0.24, ease: "power2.in" }, 3.30);
+
+      // ---------- sous-titres mot par mot ----------
+      qa(".p5-sub .p5-sw").forEach(function (wd) {
+        var t0 = parseFloat(wd.getAttribute("data-cue")), inb = wd.classList.contains("inb");
+        fl(wd, { opacity: 0, y: 10, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, t0);
+        if (!inb) fl(wd, { color: "rgba(11,34,41,0.35)" }, { color: "rgba(11,34,41,1)", duration: 0.2, ease: "power1.out" }, t0 + 0.08);
+      });
+      qa(".p5-inkbg").forEach(function (b) { fl(b, { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, parseFloat(b.getAttribute("data-trace"))); });
+      qa(".p5-stk").forEach(function (b) { fl(b, { opacity: 1, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power2.out" }, parseFloat(b.getAttribute("data-trace"))); });
+      function subOut(id, t0) {
+        var els = qa("#p5-" + id + " .p5-sw").concat(qa("#p5-" + id + " .p5-inkbg")).concat(qa("#p5-" + id + " .p5-stk"));
+        fl(els, { opacity: 1, filter: "blur(0px)" }, { opacity: 0, filter: "blur(6px)", duration: 0.12, ease: "power2.in" }, t0);
+      }
+      subOut("s1", 1.00); subOut("s2", 2.42); subOut("s3", 3.28);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines[FID] = tl;
+    })();
+  </script>
+</template>

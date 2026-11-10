@@ -1,0 +1,216 @@
+<template>
+  <style>
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Bold.otf") format("opentype"); font-weight: 700; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-ExtraBold.otf") format("opentype"); font-weight: 800; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-weight: 700; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; color: #0B2229; -webkit-font-smoothing: antialiased; }
+.p2-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.p2-ground { background: radial-gradient(ellipse 1100px 1300px at 50% 30%, #FBF9F4 0%, #F1EEE7 55%, #E4DFD3 100%); }
+.p2-vig { pointer-events: none; background: radial-gradient(ellipse at 50% 42%, rgba(11,34,41,0) 55%, rgba(11,34,41,.14) 100%); }
+.p2-grain { pointer-events: none; opacity: .14; mix-blend-mode: multiply; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+.p2-tick { position: absolute; width: 2px; background: rgba(11,34,41,.28); }
+.p2-tlab { position: absolute; top: 118px; font: 700 19px "JetBrains Mono", monospace; color: rgba(11,34,41,.64); }
+.p2-rail { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #D9E4E4; }
+.p2-fill { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #0C7F8F; transform-origin: 0 50%; }
+.p2-phw { position: absolute; left: 70px; top: 0; width: 0; height: 200px; }
+.p2-ph { position: absolute; left: -2px; top: 96px; width: 4px; height: 104px; background: #0C7F8F; box-shadow: 0 0 18px rgba(12,127,143,.6); }
+.p2-ph::before { content: ""; position: absolute; top: -6px; left: -12px; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 20px solid #0C7F8F; }
+.p2-tc { position: absolute; left: -48px; top: 56px; width: 96px; height: 40px; border-radius: 8px; background: #0C7F8F; }
+.p2-tc b { position: absolute; left: 0; top: 0; width: 96px; text-align: center; font: 800 24px/40px "JetBrains Mono", monospace; color: #fff; opacity: 0; }
+.p2-q { position: absolute; left: 163px; top: 185px; opacity: 0; filter: blur(8px); }
+.p2-post { position: absolute; left: 90px; width: 900px; background: #fff; border-radius: 44px; padding: 34px; box-shadow: 0 40px 90px rgba(11,34,41,.22), 0 0 0 2px rgba(11,34,41,.06); }
+.p2-hd { display: flex; align-items: center; gap: 22px; height: 92px; }
+.p2-av { width: 84px; height: 84px; border-radius: 50%; background: conic-gradient(from 200deg, #0C7F8F, #7fd0da, #0C7F8F); padding: 5px; flex: none; }
+.p2-av i { display: block; width: 100%; height: 100%; border-radius: 50%; background: #0B2229; }
+.p2-nm { font: 800 34px "Inter", sans-serif; color: #0B2229; }
+.p2-nm small { display: block; font: 500 26px "Inter", sans-serif; color: #78898D; margin-top: 2px; }
+.p2-media { position: relative; height: 560px; border-radius: 28px; overflow: hidden; margin-top: 6px; }
+.p2-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p2-acts { display: flex; gap: 34px; margin-top: 26px; align-items: center; }
+.p2-ic { display: inline-block; opacity: .25; }
+.p2-bar { height: 22px; border-radius: 12px; background: #E8E4DA; margin-top: 16px; transform-origin: 0 50%; }
+.p2-sub { position: absolute; left: 0; top: 1420px; width: 1080px; text-align: center; font: 800 64px/77px "Inter", sans-serif; letter-spacing: -.01em; color: #0B2229; white-space: nowrap; }
+.p2-sw { display: inline-block; opacity: 0; }
+.p2-ink { position: relative; display: inline-block; margin: 0 14px; }
+.p2-inkbg { position: absolute; left: -16px; right: -16px; top: 4px; bottom: 0; border-radius: 12px; background: #0C7F8F; transform-origin: 0 50%; transform: scaleX(0); }
+.p2-inktx { position: relative; }
+.p2-sw.inb { color: #fff; }
+
+.p2-cam { z-index: 2; }
+.p2-post, .p2-notif, .p2-nsh { box-sizing: border-box; }
+.p2-sub { left: 0; }
+.p2-pm { position: absolute; left: 26px; bottom: 30px; width: 780px; height: 12px; }
+.p2-prail { position: absolute; left: 0; top: 0; width: 780px; height: 12px; border-radius: 7px; background: rgba(255,255,255,.55); transform-origin: 0 50%; opacity: 0; }
+.p2-pfill { position: absolute; left: 0; top: 0; width: 780px; height: 12px; border-radius: 7px; background: #0C7F8F; box-shadow: 0 0 14px rgba(12,127,143,.7); transform-origin: 0 50%; transform: scaleX(0); opacity: 0; }
+.p2-dw { position: absolute; left: 0; top: 0; width: 0; height: 12px; }
+.p2-dot { position: absolute; left: -11px; top: -5px; width: 22px; height: 22px; border-radius: 50%; background: #27B2C4; box-shadow: 0 0 0 4px #fff; opacity: 0; }
+.p2-glow { position: absolute; left: -26px; top: -20px; width: 52px; height: 52px; border-radius: 50%; background: #9FDDE5; opacity: 0; filter: blur(7px); }
+.p2-chip { position: absolute; left: 0; top: 140px; display: flex; align-items: center; gap: 12px; font: 700 30px "JetBrains Mono", monospace; letter-spacing: 2px; color: #fff; background: #0C7F8F; padding: 10px 20px; border-radius: 9px; white-space: nowrap; opacity: 0; }
+.p2-notif { position: absolute; left: 75px; top: 240px; width: 930px; height: 200px; border-radius: 44px; background: #0B2229; color: #fff; box-shadow: 0 34px 80px rgba(11,34,41,.45); display: flex; align-items: center; padding: 0 38px; gap: 30px; opacity: 0; }
+.p2-nav { width: 124px; height: 124px; border-radius: 50%; background: linear-gradient(135deg, #27B2C4, #0B5560); display: flex; align-items: center; justify-content: center; font-size: 66px; flex: none; }
+.p2-nt1 { font: 800 44px "Inter", sans-serif; }
+.p2-nt1 small { font: 500 28px "Inter", sans-serif; color: #9FB6BA; margin-left: 10px; }
+.p2-nt2 { font: 500 40px "Inter", sans-serif; margin-top: 6px; color: #DFECED; }
+.p2-ndot { width: 28px; height: 28px; border-radius: 50%; background: #27B2C4; margin-left: auto; flex: none; }
+.p2-nsh { position: absolute; left: 75px; top: 150px; width: 930px; height: 200px; border-radius: 44px; background: #0B2229; opacity: 0; }
+.p2-trait { position: absolute; left: -6px; right: -6px; bottom: -14px; height: 9px; border-radius: 9px; background: #0C7F8F; transform-origin: 0 50%; transform: rotate(-1.4deg) scaleX(0); opacity: 0; }
+</style>
+
+  <div id="root" data-composition-id="02-crush" data-width="1080" data-height="1920" data-duration="5.60">
+    <div id="p2-ground" class="clip p2-layer p2-ground" data-start="0" data-duration="5.60" data-track-index="0"></div>
+    <div id="p2-header" class="clip p2-layer" data-start="0" data-duration="5.60" data-track-index="2" style="z-index:3">
+      <div class="p2-rail"></div><div id="p2-fill" class="p2-fill"></div><i class="p2-tick" style="left:70.0px;top:150px;height:26px"></i><i class="p2-tick" style="left:95.6px;top:162px;height:14px"></i><i class="p2-tick" style="left:121.3px;top:162px;height:14px"></i><i class="p2-tick" style="left:146.9px;top:162px;height:14px"></i><i class="p2-tick" style="left:172.5px;top:162px;height:14px"></i><i class="p2-tick" style="left:198.1px;top:150px;height:26px"></i><b class="p2-tlab" style="left:204.1px">00:05</b><i class="p2-tick" style="left:223.8px;top:162px;height:14px"></i><i class="p2-tick" style="left:249.4px;top:162px;height:14px"></i><i class="p2-tick" style="left:275.0px;top:162px;height:14px"></i><i class="p2-tick" style="left:300.6px;top:162px;height:14px"></i><i class="p2-tick" style="left:326.3px;top:150px;height:26px"></i><b class="p2-tlab" style="left:332.3px">00:10</b><i class="p2-tick" style="left:351.9px;top:162px;height:14px"></i><i class="p2-tick" style="left:377.5px;top:162px;height:14px"></i><i class="p2-tick" style="left:403.2px;top:162px;height:14px"></i><i class="p2-tick" style="left:428.8px;top:162px;height:14px"></i><i class="p2-tick" style="left:454.4px;top:150px;height:26px"></i><b class="p2-tlab" style="left:460.4px">00:15</b><i class="p2-tick" style="left:480.0px;top:162px;height:14px"></i><i class="p2-tick" style="left:505.7px;top:162px;height:14px"></i><i class="p2-tick" style="left:531.3px;top:162px;height:14px"></i><i class="p2-tick" style="left:556.9px;top:162px;height:14px"></i><i class="p2-tick" style="left:582.5px;top:150px;height:26px"></i><b class="p2-tlab" style="left:588.5px">00:20</b><i class="p2-tick" style="left:608.2px;top:162px;height:14px"></i><i class="p2-tick" style="left:633.8px;top:162px;height:14px"></i><i class="p2-tick" style="left:659.4px;top:162px;height:14px"></i><i class="p2-tick" style="left:685.0px;top:162px;height:14px"></i><i class="p2-tick" style="left:710.7px;top:150px;height:26px"></i><b class="p2-tlab" style="left:716.7px">00:25</b><i class="p2-tick" style="left:736.3px;top:162px;height:14px"></i><i class="p2-tick" style="left:761.9px;top:162px;height:14px"></i><i class="p2-tick" style="left:787.6px;top:162px;height:14px"></i><i class="p2-tick" style="left:813.2px;top:162px;height:14px"></i><i class="p2-tick" style="left:838.8px;top:150px;height:26px"></i><b class="p2-tlab" style="left:844.8px">00:30</b><i class="p2-tick" style="left:864.4px;top:162px;height:14px"></i><i class="p2-tick" style="left:890.1px;top:162px;height:14px"></i><i class="p2-tick" style="left:915.7px;top:162px;height:14px"></i><i class="p2-tick" style="left:941.3px;top:162px;height:14px"></i><i class="p2-tick" style="left:966.9px;top:150px;height:26px"></i><b class="p2-tlab" style="left:972.9px">00:35</b><i class="p2-tick" style="left:992.6px;top:162px;height:14px"></i>
+      <div id="p2-phw" class="p2-phw"><div class="p2-ph"></div><div id="p2-tc" class="p2-tc"><b id="p2-t3">00:03</b><b id="p2-t4">00:04</b><b id="p2-t5">00:05</b><b id="p2-t6">00:06</b><b id="p2-t7">00:07</b><b id="p2-t8">00:08</b><b id="p2-t9">00:09</b></div></div>
+    </div>
+    <div id="p2-cam" class="clip p2-layer p2-cam" data-start="0" data-duration="5.60" data-track-index="1">
+      <svg id="p2-q" class="p2-q" width="728" height="1300" viewBox="0 0 560 1000" aria-hidden="true"><path d="M110,250 C110,50 470,50 470,290 C470,470 290,500 290,660" fill="none" stroke="#0C7F8F" stroke-width="40" stroke-linecap="round"/><circle cx="290" cy="830" r="36" fill="#0C7F8F"/></svg>
+      <div id="p2-world" class="p2-layer">
+        <div id="p2-next" class="p2-post" style="top:1720px;"><div class="p2-hd"><div class="p2-av"><i></i></div><div class="p2-nm">@suivant<small>à l'instant</small></div></div><div class="p2-media"><img src="assets/img/fx/createur.jpg" alt=""></div><div class="p2-acts"><span class="p2-ic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0B2229" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.6 4.5 6.4 4.5c2.2 0 3.7 1.2 5.6 3.3 1.9-2.1 3.4-3.3 5.6-3.3 3.8 0 5.5 3.9 4 7.3C19.5 16.4 12 21 12 21z"/></svg></span><span class="p2-ic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0B2229" stroke-width="2" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20.5l1.6-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg></span><span class="p2-ic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0B2229" stroke-width="2" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></span></div><div class="p2-bar" style="width:92%"></div><div class="p2-bar" style="width:62%"></div></div>
+        <div id="p2-post" class="p2-post" style="top:430px;"><div class="p2-hd"><div class="p2-av"><i></i></div><div class="p2-nm">@video.en.cours<small>à l'instant</small></div></div><div class="p2-media"><img src="assets/img/fx/cinema.jpg" alt=""><div class="p2-pm"><div id="p2-prail" class="p2-prail"></div><div id="p2-pfill" class="p2-pfill"></div><div id="p2-dw" class="p2-dw"><i id="p2-glow" class="p2-glow"></i><i id="p2-dot" class="p2-dot"></i></div></div></div><div class="p2-acts"><span class="p2-ic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0B2229" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.6 4.5 6.4 4.5c2.2 0 3.7 1.2 5.6 3.3 1.9-2.1 3.4-3.3 5.6-3.3 3.8 0 5.5 3.9 4 7.3C19.5 16.4 12 21 12 21z"/></svg></span><span class="p2-ic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0B2229" stroke-width="2" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20.5l1.6-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg></span><span class="p2-ic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0B2229" stroke-width="2" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></span></div><div class="p2-bar" style="width:92%"></div><div class="p2-bar" style="width:62%"></div><div id="p2-chip" class="p2-chip"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12H4M10 6l-6 6 6 6"/></svg>IGNORER</div></div>
+      </div>
+      <div id="p2-nsh" class="p2-nsh"></div>
+      <div id="p2-ng2" class="p2-notif" data-layout-allow-overflow><div class="p2-nav">❤️</div><div><div class="p2-nt1">Crush<small>à l'instant</small></div><div class="p2-nt2">Hey 😍 tu fais quoi ce soir ?</div></div><div class="p2-ndot" id="p2-ng2d"></div></div>
+      <div id="p2-ng1" class="p2-notif" data-layout-allow-overflow><div class="p2-nav">❤️</div><div><div class="p2-nt1">Crush<small>à l'instant</small></div><div class="p2-nt2">Hey 😍 tu fais quoi ce soir ?</div></div><div class="p2-ndot" id="p2-ng1d"></div></div>
+      <div id="p2-n" class="p2-notif" data-layout-allow-overflow><div class="p2-nav">❤️</div><div><div class="p2-nt1">Crush<small>à l'instant</small></div><div class="p2-nt2">Hey 😍 tu fais quoi ce soir ?</div></div><div class="p2-ndot" id="p2-nd"></div></div>
+    </div>
+    <div id="p2-subs" class="clip p2-layer" data-start="0" data-duration="5.60" data-track-index="3" style="z-index:4">
+      <div id="p2-s1" class="p2-sub"><span class="p2-sw" data-cue="0.00">Tu</span> <span class="p2-sw" data-cue="0.14">sais,</span></div><div id="p2-s2" class="p2-sub"><span class="p2-sw" data-cue="1.28">ton</span> <span class="p2-sw" data-cue="1.42">crush</span> <span class="p2-ink"><i class="p2-inkbg" data-trace="1.58"></i><span class="p2-inktx"><span class="p2-sw inb" data-cue="1.68">t'écrit</span></span></span> <span class="p2-sw" data-cue="2.06">enfin,</span></div><div id="p2-s3" class="p2-sub"><span class="p2-sw" data-cue="2.94">mais</span> <span class="p2-sw" data-cue="3.10">tu</span> <span class="p2-sw" data-cue="3.24">l'</span><span class="p2-ink"><i class="p2-inkbg" data-trace="3.18"></i><i class="p2-trait" id="p2-trait"></i><span class="p2-inktx"><span class="p2-sw inb" data-cue="3.28">ignores</span></span></span></div><div id="p2-s4" class="p2-sub"><span class="p2-sw" data-cue="4.02">pour</span> <span class="p2-sw" data-cue="4.10">finir</span> <span class="p2-ink"><i class="p2-inkbg" data-trace="4.32"></i><span class="p2-inktx"><span class="p2-sw inb" data-cue="4.40">d'abord</span></span></span> <span class="p2-sw" data-cue="4.68">la</span> <span class="p2-sw" data-cue="4.82">vidéo.</span></div>
+    </div>
+    <div id="p2-vig" class="clip p2-layer p2-vig" data-start="0" data-duration="5.60" data-track-index="4" style="z-index:5"></div>
+    <div id="p2-grain" class="clip p2-layer p2-grain" data-start="0" data-duration="5.60" data-track-index="5" style="z-index:6"></div>
+  </div>
+
+  <script src="assets/vendor/gsap-3.14.2.min.js"></script>
+  <script>
+    (function () {
+      var FID = "02-crush", DUR = 5.60;
+      var root = document.querySelector('[data-composition-id="' + FID + '"]');
+      function $(n) { return root.querySelector("#p2-" + n); }
+      function qa(sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+      var tl = gsap.timeline({ paused: true });
+      function ft(el, a, b, t) { b.immediateRender = (t === 0 || t === 0.04); tl.fromTo(el, a, b, t); }
+      function fl(el, a, b, t) { b.immediateRender = false; tl.fromTo(el, a, b, t); }
+
+      // ---------- états de départ = handoff_in : le post « @video.en.cours » encore en montée, flou 10 px, média à y 700 ----------
+      var T = 430;                       // sommet du post (repère monde) au repos ; à t=0 il est à 568 : y = +138
+      gsap.set($("post"), { y: 138, rotation: 0, scale: 1, transformOrigin: "50% 50%", filter: "blur(10px)" });
+      gsap.set($("next"), { scale: 0.9, transformOrigin: "50% 50%", filter: "blur(7px)", opacity: 0 });
+      gsap.set($("cam"), { transformOrigin: "50% 25%" });
+      gsap.set($("fill"), { scaleX: 0 });
+      gsap.set($("t3"), { opacity: 1 });
+      qa("#p2-post .p2-ic").forEach(function (ic) { gsap.set(ic, { opacity: 0.25 }); });
+      gsap.set([$("n"), $("ng1"), $("ng2")], { rotation: -2, transformOrigin: "50% 50%" });
+      gsap.set($("nsh"), { rotation: -2, filter: "blur(14px)" });
+      gsap.set($("ng1"), { filter: "blur(7px)" });
+      gsap.set($("ng2"), { filter: "blur(13px)" });
+      gsap.set($("n"), { y: -110, scale: 1.14, filter: "blur(10px)" });
+      gsap.set($("chip"), { opacity: 0 });
+
+      // ---------- règle de temps : linéaire sur toute la séquence (x 172 → 316), puce aux secondes entières du film ----------
+      tl.fromTo($("fill"), { scaleX: 102 / 940 }, { scaleX: 246 / 940, duration: DUR, ease: "none", immediateRender: true }, 0);
+      tl.fromTo($("phw"), { x: 102 }, { x: 246, duration: DUR, ease: "none", immediateRender: true }, 0);
+      // 00:03 jusqu'à 0.02, puis 00:04 (film 4 s), 00:05 à 1.02, 00:06 à 2.02, 00:07 à 3.02, 00:08 à 4.02, 00:09 à 5.02
+      [[3, 4, 0.02], [4, 5, 1.02], [5, 6, 2.02], [6, 7, 3.02], [7, 8, 4.02], [8, 9, 5.02]].forEach(function (s) {
+        tl.set($("t" + s[0]), { opacity: 0 }, s[2]); tl.set($("t" + s[1]), { opacity: 1 }, s[2]);
+        fl($("tc"), { scale: 1 }, { scale: 1.1, duration: 0.08, ease: "power2.out" }, s[2]);
+        fl($("tc"), { scale: 1.1 }, { scale: 1, duration: 0.12, ease: "power2.in" }, s[2] + 0.08);
+      });
+
+      // ---------- dérive linéaire du fil : +30 u/s vers le haut (le monde seul) ----------
+      tl.fromTo($("world"), { y: 0 }, { y: -30 * DUR, duration: DUR, ease: "none", immediateRender: true }, 0);
+
+      // ---------- scène 1 : le post finit sa montée (vitesse reprise du pilote ≈ 2000 u/s), se pose, flou 10 → 0 ----------
+      ft($("post"), { y: 138 }, { y: 0, duration: 0.6, ease: "expo.out" }, 0);
+      ft($("post"), { filter: "blur(10px)" }, { filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 0);
+      ft($("post"), { rotation: 0 }, { rotation: 1, duration: 0.6, ease: "expo.out" }, 0);
+      fl($("next"), { opacity: 0 }, { opacity: 0.75, duration: 0.3, ease: "power1.out" }, 0.20);
+      qa("#p2-post .p2-ic").forEach(function (ic, i) { fl(ic, { opacity: 0.25 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, 0.40 + 0.12 * i); });
+
+      // barre de lecture (blanche à 0.14), remplissage et point : une seule fonction pour les deux
+      var PW = 780;
+      function prog(p0, p1, t, d, ease) {
+        fl($("pfill"), { scaleX: p0 }, { scaleX: p1, duration: d, ease: ease }, t);
+        fl($("dw"), { x: PW * p0 }, { x: PW * p1, duration: d, ease: ease }, t);
+      }
+      gsap.set($("pfill"), { scaleX: 0, opacity: 0 });
+      gsap.set($("dw"), { x: 0 });
+      fl($("prail"), { opacity: 0, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.2, ease: "power2.out" }, 0.14);
+      fl($("pfill"), { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none" }, 0.30);
+      fl($("dot"), { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none" }, 0.30);
+      prog(0, 0.55, 0.30, 1.60, "none");        // 0 → 55 % jusqu'à 1.90
+      prog(0.55, 0.60, 1.90, 1.34, "none");     // 60 % à 3.24
+      prog(0.60, 0.92, 3.50, 0.50, "power2.out"); // saut à 92 %
+      prog(0.92, 0.95, 4.82, 0.10, "power2.out"); // frémissement
+      prog(0.95, 0.92, 4.92, 0.13, "power2.inOut");
+      // le point brille à 3.90
+      fl($("glow"), { opacity: 0, scale: 0.6 }, { opacity: 0.9, scale: 1.5, duration: 0.2, ease: "power2.out" }, 3.90);
+      fl($("glow"), { opacity: 0.9, scale: 1.5 }, { opacity: 0, scale: 1.0, duration: 0.4, ease: "power1.in" }, 4.10);
+
+      // ---------- scène 2 : la notification « Crush » tombe sur la vidéo ----------
+      fl($("nsh"), { opacity: 0 }, { opacity: 0.14, duration: 0.12, ease: "power1.out" }, 1.30);
+      fl($("nsh"), { opacity: 0.14 }, { opacity: 0, duration: 0.14, ease: "power1.in" }, 1.52);
+      fl($("n"), { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "none" }, 1.42);
+      fl($("n"), { y: -110, scale: 1.14, filter: "blur(10px)" }, { y: 0, scale: 1, filter: "blur(0px)", duration: 0.3, ease: "expo.out" }, 1.42);
+      // le point pulse deux fois
+      [1.60, 1.88].forEach(function (t0) {
+        fl($("nd"), { scale: 1 }, { scale: 1.5, duration: 0.14, ease: "sine.out", transformOrigin: "50% 50%" }, t0);
+        fl($("nd"), { scale: 1.5 }, { scale: 1, duration: 0.14, ease: "sine.in", transformOrigin: "50% 50%" }, t0 + 0.14);
+      });
+      // vibration de 6 px (3 allers-retours)
+      [6, -6, 6, -6, 6, 0].forEach(function (x, i) {
+        fl($("n"), { x: i === 0 ? 0 : [6, -6, 6, -6, 6, 0][i - 1] }, { x: x, duration: 0.04, ease: "none" }, 2.10 + 0.04 * i);
+      });
+      // cran de caméra vers la notification
+      fl($("cam"), { scale: 1 }, { scale: 1.05, duration: 0.28, ease: "expo.out" }, 1.42);
+      // le curseur « ← IGNORER »
+      fl($("chip"), { opacity: 0, x: -24 }, { opacity: 1, x: 0, duration: 0.2, ease: "power2.out" }, 2.80);
+
+      // ---------- scène 3 : balayée à gauche, traînée, la barre saute à 92 % ----------
+      function sweep(el, k, t0, op0) {
+        fl(el, { x: 0 }, { x: -420 * k, duration: 0.22, ease: "power3.in" }, t0);
+        fl(el, { x: -420 * k }, { x: -1250 * k, duration: 0.16, ease: "none" }, t0 + 0.22);
+      }
+      sweep($("n"), 1, 3.24);
+      fl($("n"), { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.22, ease: "power3.in" }, 3.24);
+      tl.set($("n"), { opacity: 0 }, 3.62);
+      tl.set($("ng1"), { opacity: 0.28 }, 3.26);
+      tl.set($("ng2"), { opacity: 0.13 }, 3.28);
+      sweep($("ng1"), 1.31, 3.24);
+      sweep($("ng2"), 1.6, 3.24);
+      tl.set($("ng1"), { opacity: 0 }, 3.62);
+      tl.set($("ng2"), { opacity: 0 }, 3.62);
+      fl($("chip"), { opacity: 1 }, { opacity: 0, duration: 0.2, ease: "power1.in" }, 3.78);
+      // petit cran caméra à gauche (+40) pour suivre la notification, puis retour à l'axe et à l'échelle 1
+      fl($("cam"), { x: 0 }, { x: 40, duration: 0.22, ease: "expo.out" }, 3.24);
+      fl($("cam"), { x: 40, scale: 1.05 }, { x: 0, scale: 1, duration: 0.8, ease: "power2.inOut" }, 3.70);
+      // le trait vert-bleu sous « ignores »
+      fl($("trait"), { opacity: 1, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.4, ease: "power2.out" }, 3.50);
+
+      // ---------- scène 4 : le « ? » paraît derrière, le post recule ----------
+      fl($("next"), { opacity: 0.75 }, { opacity: 0, duration: 0.35, ease: "power1.in" }, 4.0);
+      fl($("q"), { opacity: 0 }, { opacity: 0.7, duration: 0.3, ease: "power1.out" }, 4.40);
+      // cible : centre du post à (540, 760) à 5.6 s, échelle 0,5, flou 12 px
+      var yEnd = 760 - (T + 886 / 2) + 30 * DUR;
+      fl($("post"), { scale: 1, filter: "blur(0px)", y: 0 }, { scale: 0.5, filter: "blur(12px)", y: yEnd, duration: 0.55, ease: "power3.in" }, 5.0);
+
+      // ---------- sous-titres : mot par mot, quatre morceaux qui se remplacent ----------
+      qa(".p2-sub .p2-sw").forEach(function (wd) {
+        var t0 = parseFloat(wd.getAttribute("data-cue")), inb = wd.classList.contains("inb");
+        fl(wd, { opacity: 0, y: 10, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, t0);
+        if (!inb) fl(wd, { color: "rgba(11,34,41,0.35)" }, { color: "rgba(11,34,41,1)", duration: 0.2, ease: "power1.out" }, t0 + 0.08);
+      });
+      qa(".p2-inkbg").forEach(function (b) { fl(b, { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, parseFloat(b.getAttribute("data-trace"))); });
+      function subOut(id, t0) {
+        var els = qa("#p2-" + id + " .p2-sw").concat(qa("#p2-" + id + " .p2-inkbg")).concat(qa("#p2-" + id + " .p2-trait"));
+        fl(els, { opacity: 1, filter: "blur(0px)" }, { opacity: 0, filter: "blur(6px)", duration: 0.12, ease: "power2.in" }, t0);
+      }
+      subOut("s1", 0.76); subOut("s2", 2.80); subOut("s3", 3.84); subOut("s4", 5.40);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines[FID] = tl;
+    })();
+
+  </script>
+</template>

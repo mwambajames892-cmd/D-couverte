@@ -1,0 +1,173 @@
+<template>
+  <style>
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Bold.otf") format("opentype"); font-weight: 700; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-ExtraBold.otf") format("opentype"); font-weight: 800; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-weight: 700; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; color: #0B2229; -webkit-font-smoothing: antialiased; }
+.p6-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.p6-ground { background: radial-gradient(ellipse 1100px 1300px at 50% 30%, #FBF9F4 0%, #F1EEE7 55%, #E4DFD3 100%); }
+.p6-vig { pointer-events: none; background: radial-gradient(ellipse at 50% 42%, rgba(11,34,41,0) 55%, rgba(11,34,41,.14) 100%); }
+.p6-grain { pointer-events: none; opacity: .14; mix-blend-mode: multiply; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+.p6-tick { position: absolute; width: 2px; background: rgba(11,34,41,.28); }
+.p6-tlab { position: absolute; top: 118px; font: 700 19px "JetBrains Mono", monospace; color: rgba(11,34,41,.64); }
+.p6-rail { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #D9E4E4; }
+.p6-fill { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #0C7F8F; transform-origin: 0 50%; }
+.p6-phw { position: absolute; left: 70px; top: 0; width: 0; height: 200px; }
+.p6-ph { position: absolute; left: -2px; top: 96px; width: 4px; height: 104px; background: #0C7F8F; box-shadow: 0 0 18px rgba(12,127,143,.6); }
+.p6-ph::before { content: ""; position: absolute; top: -6px; left: -12px; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 20px solid #0C7F8F; }
+.p6-tc { position: absolute; left: -48px; top: 56px; width: 96px; height: 40px; border-radius: 8px; background: #0C7F8F; }
+.p6-tc b { position: absolute; left: 0; top: 0; width: 96px; text-align: center; font: 800 24px/40px "JetBrains Mono", monospace; color: #fff; opacity: 0; }
+.p6-cam { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; transform-origin: 540px 700px; }
+.p6-cw { position: absolute; left: 70px; top: 270px; width: 940px; height: 790px; opacity: 0; }
+.p6-card { position: absolute; left: 0; top: 0; width: 940px; height: 790px; background: #fff; border-radius: 44px; box-shadow: 0 40px 90px rgba(11,34,41,.22), 0 0 0 2px rgba(11,34,41,.06); }
+.p6-av { position: absolute; left: 34px; top: 40px; width: 84px; height: 84px; border-radius: 50%; background: conic-gradient(from 200deg, #0C7F8F, #7fd0da, #0C7F8F); padding: 5px; }
+.p6-av i { display: block; width: 100%; height: 100%; border-radius: 50%; background: #0B2229; }
+.p6-nm { position: absolute; left: 140px; top: 42px; font: 800 34px "Inter", sans-serif; color: #0B2229; white-space: nowrap; }
+.p6-nm small { display: block; font: 500 26px "Inter", sans-serif; color: #5E7176; margin-top: 2px; }
+.p6-t { position: absolute; width: 200px; height: 290px; transform-origin: 100px 100px; opacity: 0; }
+.p6-tb { position: absolute; left: 0; top: 0; width: 200px; height: 200px; border-radius: 22px; overflow: hidden; box-shadow: 0 0 0 4px #fff, 0 14px 30px rgba(11,34,41,.2); }
+.p6-tb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p6-aa { background: #0C7F8F; color: #fff; font: 800 44px/1.05 "Inter", sans-serif; display: flex; align-items: center; justify-content: center; text-align: center; }
+.p6-tl { position: absolute; left: -6px; top: 222px; width: 212px; text-align: center; font: 700 20px/27px "JetBrains Mono", monospace; letter-spacing: .5px; color: #0B2229; }
+.p6-ring { position: absolute; left: 0; top: 0; width: 200px; height: 200px; border-radius: 22px; box-shadow: 0 0 0 7px #0C7F8F; opacity: 0; transform-origin: 100px 100px; }
+.p6-glow { position: absolute; left: 0; top: 0; width: 200px; height: 200px; border-radius: 22px; box-shadow: 0 0 0 3px #0C7F8F, 0 0 40px 12px rgba(39,178,196,.65); opacity: 0; transform-origin: 100px 100px; }
+.p6-mini { position: absolute; left: 520px; top: 800px; width: 380px; height: 230px; border-radius: 26px; overflow: hidden; background: #fff; box-shadow: 0 26px 60px rgba(11,34,41,.28), 0 0 0 6px #fff; filter: blur(9px); opacity: 0; }
+.p6-mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p6-dot { position: absolute; left: 526px; top: 746px; width: 28px; height: 28px; border-radius: 50%; background: #0C7F8F; box-shadow: 0 0 24px rgba(12,127,143,.6); }
+.p6-sub { position: absolute; left: 0; top: 1420px; width: 1080px; text-align: center; font: 800 64px/77px "Inter", sans-serif; letter-spacing: -.01em; color: #0B2229; white-space: nowrap; }
+.p6-sw { display: inline-block; opacity: 0; }
+.p6-ink { position: relative; display: inline-block; margin: 0 14px; }
+.p6-inkbg { position: absolute; left: -16px; right: -16px; top: 4px; bottom: 0; border-radius: 12px; background: #0C7F8F; transform-origin: 0 50%; transform: scaleX(0); }
+.p6-inktx { position: relative; }
+.p6-sw.inb { color: #fff; }
+.p6-pk { position: relative; display: inline-block; }
+.p6-stroke { position: absolute; left: -6px; right: 18px; bottom: -6px; height: 9px; border-radius: 9px; background: #0C7F8F; opacity: 0; }
+</style>
+
+  <div id="root" data-composition-id="06-services" data-width="1080" data-height="1920" data-duration="5.86">
+    <div id="p6-ground" class="clip p6-layer p6-ground" data-start="0" data-duration="5.86" data-track-index="0"></div>
+    <div id="p6-header" class="clip p6-layer" data-start="0" data-duration="5.86" data-track-index="2" style="z-index:3">
+      <div class="p6-rail"></div><div id="p6-fill" class="p6-fill"></div><i class="p6-tick" style="left:70.0px;top:150px;height:26px"></i><i class="p6-tick" style="left:95.6px;top:162px;height:14px"></i><i class="p6-tick" style="left:121.3px;top:162px;height:14px"></i><i class="p6-tick" style="left:146.9px;top:162px;height:14px"></i><i class="p6-tick" style="left:172.5px;top:162px;height:14px"></i><i class="p6-tick" style="left:198.1px;top:150px;height:26px"></i><b class="p6-tlab" style="left:204.1px">00:05</b><i class="p6-tick" style="left:223.8px;top:162px;height:14px"></i><i class="p6-tick" style="left:249.4px;top:162px;height:14px"></i><i class="p6-tick" style="left:275.0px;top:162px;height:14px"></i><i class="p6-tick" style="left:300.6px;top:162px;height:14px"></i><i class="p6-tick" style="left:326.3px;top:150px;height:26px"></i><b class="p6-tlab" style="left:332.3px">00:10</b><i class="p6-tick" style="left:351.9px;top:162px;height:14px"></i><i class="p6-tick" style="left:377.5px;top:162px;height:14px"></i><i class="p6-tick" style="left:403.2px;top:162px;height:14px"></i><i class="p6-tick" style="left:428.8px;top:162px;height:14px"></i><i class="p6-tick" style="left:454.4px;top:150px;height:26px"></i><b class="p6-tlab" style="left:460.4px">00:15</b><i class="p6-tick" style="left:480.0px;top:162px;height:14px"></i><i class="p6-tick" style="left:505.7px;top:162px;height:14px"></i><i class="p6-tick" style="left:531.3px;top:162px;height:14px"></i><i class="p6-tick" style="left:556.9px;top:162px;height:14px"></i><i class="p6-tick" style="left:582.5px;top:150px;height:26px"></i><b class="p6-tlab" style="left:588.5px">00:20</b><i class="p6-tick" style="left:608.2px;top:162px;height:14px"></i><i class="p6-tick" style="left:633.8px;top:162px;height:14px"></i><i class="p6-tick" style="left:659.4px;top:162px;height:14px"></i><i class="p6-tick" style="left:685.0px;top:162px;height:14px"></i><i class="p6-tick" style="left:710.7px;top:150px;height:26px"></i><b class="p6-tlab" style="left:716.7px">00:25</b><i class="p6-tick" style="left:736.3px;top:162px;height:14px"></i><i class="p6-tick" style="left:761.9px;top:162px;height:14px"></i><i class="p6-tick" style="left:787.6px;top:162px;height:14px"></i><i class="p6-tick" style="left:813.2px;top:162px;height:14px"></i><i class="p6-tick" style="left:838.8px;top:150px;height:26px"></i><b class="p6-tlab" style="left:844.8px">00:30</b><i class="p6-tick" style="left:864.4px;top:162px;height:14px"></i><i class="p6-tick" style="left:890.1px;top:162px;height:14px"></i><i class="p6-tick" style="left:915.7px;top:162px;height:14px"></i><i class="p6-tick" style="left:941.3px;top:162px;height:14px"></i><i class="p6-tick" style="left:966.9px;top:150px;height:26px"></i><b class="p6-tlab" style="left:972.9px">00:35</b><i class="p6-tick" style="left:992.6px;top:162px;height:14px"></i>
+      <div id="p6-phw" class="p6-phw"><div class="p6-ph"></div><div class="p6-tc"><b id="p6-t0">00:22</b><b id="p6-t1">00:23</b><b id="p6-t2">00:24</b><b id="p6-t3">00:25</b><b id="p6-t4">00:26</b><b id="p6-t5">00:27</b><b id="p6-t6">00:28</b></div></div>
+    </div>
+    <div id="p6-world" class="clip p6-layer" data-start="0" data-duration="5.86" data-track-index="1" style="z-index:2">
+      <div id="p6-cam" class="p6-cam">
+        <div id="p6-dot" class="p6-dot"></div>
+        <div id="p6-cw" class="p6-cw">
+          <div id="p6-card" class="p6-card">
+            <div class="p6-av"><i></i></div><div class="p6-nm">@jamesframotion<small>monteur vidéo</small></div>
+            <div id="p6-t-pub" class="p6-t" style="left:34px;top:170px"><div class="p6-tb"><img src="assets/img/fx/cadreur.jpg" alt="" style=""></div><div class="p6-tl" id="p6-l-pub">PUBLICITÉ</div></div><div id="p6-t-vid" class="p6-t" style="left:258px;top:170px"><div class="p6-tb"><img src="assets/img/fx/timeline.jpg" alt="" style=""></div><div class="p6-tl" id="p6-l-vid">VIDÉO MARKETING</div></div><div id="p6-t-doc" class="p6-t" style="left:482px;top:170px"><div class="p6-tb"><img src="assets/img/fx/cinema.jpg" alt="" style=""></div><div class="p6-tl" id="p6-l-doc">DOCUMENTAIRE</div></div><div id="p6-t-clip" class="p6-t" style="left:706px;top:170px"><div class="p6-tb"><img src="assets/img/fx/pc.jpg" alt="" style=""></div><div class="p6-tl" id="p6-l-clip">CLIP MUSICAL</div></div><div id="p6-t-pod" class="p6-t" style="left:34px;top:480px"><div class="p6-tb"><img src="assets/img/fx/createur.jpg" alt="" style=""></div><div class="p6-tl" id="p6-l-pod">PODCAST</div></div><div id="p6-t-sk" class="p6-t" style="left:258px;top:480px"><div class="p6-tb"><img src="assets/img/fx/premiere.jpg" alt="" style=""></div><div class="p6-tl" id="p6-l-sk">SKETCH</div></div><div id="p6-t-sub" class="p6-t" style="left:482px;top:480px"><div class="p6-tb p6-aa">Aa<br>…</div><div class="p6-tl" id="p6-l-sub">SOUS-TITRES ANIMÉS</div></div><div id="p6-t-por" class="p6-t" style="left:706px;top:480px"><div class="p6-tb"><img src="assets/img/fx/portrait.jpg" alt="" style="object-position:50% 18%"></div></div>
+            <div id="p6-ring" class="p6-ring"></div><div id="p6-glow" class="p6-glow"></div>
+          </div>
+          <div id="p6-mini" class="p6-mini"><img src="assets/img/fx/grading.jpg" alt=""></div>
+        </div>
+      </div>
+    </div>
+    <div id="p6-subs" class="clip p6-layer" data-start="0" data-duration="5.86" data-track-index="3" style="z-index:4">
+      <div id="p6-s1" class="p6-sub"><span class="p6-sw" data-cue="0.00">Publicité,</span> <span class="p6-sw" data-cue="0.86">vidéo</span> <span class="p6-sw" data-cue="1.10">marketing,</span></div>
+      <div id="p6-s2" class="p6-sub"><span class="p6-sw" data-cue="2.02">documentaire,</span> <span class="p6-ink"><i class="p6-inkbg" data-trace="2.82"></i><span class="p6-inktx"><span class="p6-sw inb" data-cue="2.92">clip</span> <span class="p6-sw inb" data-cue="3.00">musical</span></span></span><span class="p6-sw" data-cue="3.14">,</span></div>
+      <div id="p6-s3" class="p6-sub"><span class="p6-sw" data-cue="3.78">podcast,</span> <span class="p6-sw" data-cue="4.60">sketch,</span></div>
+      <div id="p6-s4" class="p6-sub"><span class="p6-sw" data-cue="5.24">sous-titres</span> <span class="p6-pk"><span class="p6-sw" data-cue="5.52">animés.</span><i id="p6-stroke" class="p6-stroke"></i></span></div>
+    </div>
+    <div id="p6-vig" class="clip p6-layer p6-vig" data-start="0" data-duration="5.86" data-track-index="4" style="z-index:5"></div>
+    <div id="p6-grain" class="clip p6-layer p6-grain" data-start="0" data-duration="5.86" data-track-index="5" style="z-index:6"></div>
+  </div>
+
+  <script src="assets/vendor/gsap-3.14.2.min.js"></script>
+  <script>
+    (function () {
+      var FID = "06-services", DUR = 5.86;
+      var root = document.querySelector('[data-composition-id="' + FID + '"]');
+      function $(n) { return root.querySelector("#p6-" + n); }
+      function qa(sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+      var tl = gsap.timeline({ paused: true });
+      function ft(el, a, b, t) { b.immediateRender = (t === 0 || t === 0.04); tl.fromTo(el, a, b, t); }
+      function fl(el, a, b, t) { b.immediateRender = false; tl.fromTo(el, a, b, t); }
+
+      // ---------- règle de temps : linéaire x 657 -> 807 ----------
+      var X0 = 657 - 70, X1 = 807 - 70;
+      gsap.set($("t0"), { opacity: 1 });
+      tl.fromTo($("fill"), { scaleX: X0 / 940 }, { scaleX: X1 / 940, duration: DUR, ease: "none", immediateRender: true }, 0);
+      tl.fromTo($("phw"), { x: X0 }, { x: X1, duration: DUR, ease: "none", immediateRender: true }, 0);
+      [[0, 1, 0.10], [1, 2, 1.10], [2, 3, 2.10], [3, 4, 3.10], [4, 5, 4.10], [5, 6, 5.10]].forEach(function (s) {
+        tl.set($("t" + s[0]), { opacity: 0 }, s[2]); tl.set($("t" + s[1]), { opacity: 1 }, s[2]);
+      });
+
+      // ---------- dérive linéaire du fil : +30 u/s ----------
+      tl.fromTo($("world"), { y: 0 }, { y: -30 * DUR, duration: DUR, ease: "none", immediateRender: true }, 0);
+
+      // ---------- état de départ = handoff_in : un point vert-bleu flou au centre (540, 760) ----------
+      gsap.set($("dot"), { filter: "blur(10px)", opacity: 1 });
+      gsap.set($("card"), { rotation: -0.6, transformOrigin: "50% 50%" });
+      gsap.set($("cw"), { transformOrigin: "470px 395px" });
+      var TX = [34, 258, 482, 706], TY = [170, 480];
+      gsap.set($("ring"), { x: TX[0], y: TY[0] });
+      gsap.set($("glow"), { x: TX[3], y: TY[0] });
+      gsap.set($("stroke"), { rotation: -1.4, transformOrigin: "0% 50%", scaleX: 0 });
+
+      // ---------- scène 1 : le point se déplie en carte (0.00 -> 0.35) ----------
+      ft($("cw"), { opacity: 1, scale: 0.05, y: 85, filter: "blur(10px)" }, { opacity: 1, scale: 1, y: 0, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 0);
+      ft($("dot"), { opacity: 1 }, { opacity: 0, duration: 0.15, ease: "power1.out" }, 0.04);
+      fl($("mini"), { opacity: 0, x: 80 }, { opacity: 0.45, x: 0, duration: 0.4, ease: "power3.out" }, 0.30);
+
+      // ---------- les tuiles : se posent sur leur mot (cascade, une direction, flou 10 -> 0) ----------
+      var order = [["pub", 0.10], ["vid", 0.86], ["doc", 1.62], ["clip", 2.92], ["pod", 3.78], ["sk", 4.60], ["por", 5.20], ["sub", 5.24]];
+      order.forEach(function (o) {
+        fl($("t-" + o[0]), { opacity: 0, y: 60, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.2, ease: "expo.out" }, o[1]);
+        var lab = $("l-" + o[0]);
+        if (lab) fl(lab, { clipPath: "inset(0% 100% 0% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.1, ease: "none" }, o[1] + 0.12);
+        if (lab) gsap.set(lab, { clipPath: "inset(0% 100% 0% 0%)" });
+      });
+
+      // ---------- le liseré : fil conducteur d'une tuile à la suivante ----------
+      var ring = $("ring"), glow = $("glow");
+      function act(prev, key, col, row, t, dur) {
+        fl(ring, { x: TX[prev[0]], y: TY[prev[1]] }, { x: TX[col], y: TY[row], duration: dur, ease: "power2.out" }, t);
+        if (prev[2]) fl($("l-" + prev[2]), { color: "#0C7F8F" }, { color: "#0B2229", duration: 0.1, ease: "none" }, t);
+        fl($("l-" + key), { color: "#0B2229" }, { color: "#0C7F8F", duration: 0.1, ease: "none" }, t + 0.04);
+      }
+      fl(ring, { opacity: 0 }, { opacity: 1, duration: 0.12, ease: "power1.out" }, 0.30);
+      fl($("l-pub"), { color: "#0B2229" }, { color: "#0C7F8F", duration: 0.1, ease: "none" }, 0.30);
+      act([0, 0, "pub"], "vid", 1, 0, 0.90, 0.14);
+      act([1, 0, "vid"], "doc", 2, 0, 2.02, 0.14);
+      act([2, 0, "doc"], "clip", 3, 0, 2.94, 0.14);
+      act([3, 0, "clip"], "pod", 0, 1, 3.78, 0.16);
+      act([0, 1, "pod"], "sk", 1, 1, 4.60, 0.14);
+      act([1, 1, "sk"], "sub", 2, 1, 5.24, 0.14);
+      // CLIP MUSICAL : liseré épais avec lueur, échelle 1 -> 1,07, la lueur retombe à 3.40
+      fl($("t-clip"), { scale: 1 }, { scale: 1.07, duration: 0.2, ease: "expo.out" }, 2.92);
+      fl(ring, { scale: 1 }, { scale: 1.07, duration: 0.2, ease: "expo.out" }, 2.94);
+      fl(glow, { opacity: 0, scale: 1 }, { opacity: 1, scale: 1.07, duration: 0.2, ease: "expo.out" }, 2.92);
+      fl(glow, { opacity: 1 }, { opacity: 0, duration: 0.3, ease: "power2.out" }, 3.40);
+      fl($("t-clip"), { scale: 1.07 }, { scale: 1, duration: 0.16, ease: "power2.out" }, 3.78);
+      fl(ring, { scale: 1.07 }, { scale: 1, duration: 0.16, ease: "power2.out" }, 3.78);
+      glow.style.transformOrigin = "100px 100px";
+
+      // ---------- caméra : cran vers la tuile (1 -> 1,05) puis retour ----------
+      fl($("cam"), { scale: 1 }, { scale: 1.05, duration: 0.2, ease: "expo.out" }, 2.92);
+      fl($("cam"), { scale: 1.05 }, { scale: 1, duration: 0.4, ease: "power2.inOut" }, 3.40);
+
+      // ---------- recul = handoff_out : échelle 0,55, flou 10, centrée (540, 700) ----------
+      fl($("cw"), { scale: 1, y: 0, filter: "blur(0px)" }, { scale: 0.55, y: 206, filter: "blur(10px)", duration: 0.56, ease: "power3.in" }, 5.30);
+
+      // ---------- la phrase : mot par mot, quatre morceaux ----------
+      qa(".p6-sub .p6-sw").forEach(function (wd) {
+        var t0 = parseFloat(wd.getAttribute("data-cue")), inb = wd.classList.contains("inb");
+        fl(wd, { opacity: 0, y: 10, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, t0);
+        if (!inb) fl(wd, { color: "rgba(11,34,41,0.35)" }, { color: "rgba(11,34,41,1)", duration: 0.2, ease: "power1.out" }, t0 + 0.08);
+      });
+      qa(".p6-inkbg").forEach(function (b) { fl(b, { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, parseFloat(b.getAttribute("data-trace"))); });
+      fl($("stroke"), { opacity: 1, scaleX: 0 }, { opacity: 1, scaleX: 1, duration: 0.2, ease: "power2.out" }, 5.52);
+      function subOut(id, t0, extra) {
+        var els = qa("#p6-" + id + " .p6-sw").concat(qa("#p6-" + id + " .p6-inkbg")).concat(extra || []);
+        fl(els, { opacity: 1, filter: "blur(0px)" }, { opacity: 0, filter: "blur(6px)", duration: 0.12, ease: "power2.in" }, t0);
+      }
+      subOut("s1", 1.86); subOut("s2", 3.62); subOut("s3", 5.06); subOut("s4", 5.72, [$("stroke")]);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines[FID] = tl;
+    })();
+  </script>
+</template>

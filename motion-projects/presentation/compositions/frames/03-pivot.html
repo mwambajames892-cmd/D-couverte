@@ -1,0 +1,213 @@
+<template>
+  <style>
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Medium.otf") format("opentype"); font-weight: 500; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-Bold.otf") format("opentype"); font-weight: 700; }
+@font-face { font-family: "Inter"; src: url("assets/fonts/Inter-ExtraBold.otf") format("opentype"); font-weight: 800; }
+@font-face { font-family: "JetBrains Mono"; src: url("assets/fonts/JetBrainsMono-Bold.ttf") format("truetype"); font-weight: 700; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; font-family: "Inter", sans-serif; color: #0B2229; -webkit-font-smoothing: antialiased; }
+.p3-layer { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.p3-ground { background: radial-gradient(ellipse 1100px 1300px at 50% 30%, #FBF9F4 0%, #F1EEE7 55%, #E4DFD3 100%); }
+.p3-vig { pointer-events: none; background: radial-gradient(ellipse at 50% 42%, rgba(11,34,41,0) 55%, rgba(11,34,41,.14) 100%); }
+.p3-grain { pointer-events: none; opacity: .14; mix-blend-mode: multiply; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='300' height='300'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='300' height='300' filter='url(%23n)'/></svg>"); }
+.p3-tick { position: absolute; width: 2px; background: rgba(11,34,41,.28); }
+.p3-tlab { position: absolute; top: 118px; font: 700 19px "JetBrains Mono", monospace; color: rgba(11,34,41,.64); }
+.p3-rail { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #D9E4E4; }
+.p3-fill { position: absolute; left: 70px; top: 176px; width: 940px; height: 8px; border-radius: 5px; background: #0C7F8F; transform-origin: 0 50%; }
+.p3-phw { position: absolute; left: 70px; top: 0; width: 0; height: 200px; }
+.p3-ph { position: absolute; left: -2px; top: 96px; width: 4px; height: 104px; background: #0C7F8F; box-shadow: 0 0 18px rgba(12,127,143,.6); }
+.p3-ph::before { content: ""; position: absolute; top: -6px; left: -12px; border-left: 14px solid transparent; border-right: 14px solid transparent; border-top: 20px solid #0C7F8F; }
+.p3-tc { position: absolute; left: -48px; top: 56px; width: 96px; height: 40px; border-radius: 8px; background: #0C7F8F; }
+.p3-tc b { position: absolute; left: 0; top: 0; width: 96px; text-align: center; font: 800 24px/40px "JetBrains Mono", monospace; color: #fff; opacity: 0; }
+.p3-fx { position: absolute; left: 0; top: 0; width: 1080px; height: 1920px; }
+.p3-ghost { position: absolute; left: 176px; top: 150px; opacity: .7; }
+.p3-post { position: absolute; left: 90px; top: 317px; width: 900px; height: 886px; box-sizing: border-box; background: #fff; border-radius: 44px; padding: 34px; box-shadow: 0 40px 90px rgba(11,34,41,.22), 0 0 0 2px rgba(11,34,41,.06); }
+.p3-hd { display: flex; align-items: center; gap: 22px; height: 92px; }
+.p3-av { width: 84px; height: 84px; border-radius: 50%; background: conic-gradient(from 200deg, #0C7F8F, #7fd0da, #0C7F8F); padding: 5px; flex: none; box-sizing: border-box; }
+.p3-av i { display: block; width: 100%; height: 100%; border-radius: 50%; background: #0B2229; }
+.p3-nm { font: 800 34px "Inter", sans-serif; color: #0B2229; }
+.p3-nm small { display: block; font: 500 26px "Inter", sans-serif; color: #78898D; margin-top: 2px; }
+.p3-media { position: relative; height: 560px; border-radius: 28px; overflow: hidden; margin-top: 6px; }
+.p3-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p3-acts { display: flex; gap: 34px; margin-top: 26px; align-items: center; height: 58px; }
+.p3-bar { height: 22px; border-radius: 12px; background: #E8E4DA; margin-top: 16px; }
+.p3-card { position: absolute; left: 110px; top: 520px; width: 860px; height: 484px; opacity: 0; }
+.p3-cbord { position: absolute; left: -8px; top: -8px; width: 876px; height: 500px; border-radius: 28px; background: #0C7F8F; box-shadow: 0 34px 80px rgba(11,34,41,.35); }
+.p3-cmask { position: absolute; left: 0; top: 0; width: 860px; height: 484px; overflow: hidden; clip-path: inset(0px 0px 0px 0px round 12px); background: #0B2229; }
+.p3-cmask img { position: absolute; left: 0; top: 0; width: 860px; height: 484px; object-fit: cover; display: block; }
+.p3-cgray { filter: grayscale(1) contrast(.92) brightness(.95); }
+.p3-ccol { clip-path: inset(0 100% 0 0); }
+.p3-div { position: absolute; left: -3px; top: 0; width: 6px; height: 484px; background: #fff; box-shadow: 0 0 18px rgba(255,255,255,.9), 0 0 30px rgba(12,127,143,.7); opacity: 0; }
+.p3-chip { position: absolute; left: 110px; top: 1060px; font: 700 28px "JetBrains Mono", monospace; letter-spacing: 2px; color: #fff; background: #0C7F8F; padding: 7px 14px; border-radius: 9px; white-space: nowrap; opacity: 0; }
+.p3-mini { position: absolute; border-radius: 26px; overflow: hidden; background: #fff; box-shadow: 0 26px 60px rgba(11,34,41,.28), 0 0 0 6px #fff; opacity: 0; }
+.p3-mini img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.p3-glow { position: absolute; left: 140px; top: 107px; width: 800px; height: 800px; border-radius: 50%; background: radial-gradient(circle at 50% 50%, rgba(159,221,229,.95) 0%, rgba(159,221,229,.45) 38%, rgba(159,221,229,0) 70%); opacity: 0; }
+.p3-ring { position: absolute; left: 300px; top: 267px; width: 480px; height: 480px; border-radius: 50%; background: conic-gradient(from 210deg, #0C7F8F, #9FDDE5, #0C7F8F); box-shadow: 0 36px 80px rgba(11,34,41,.3); opacity: 0; }
+.p3-ring2 { position: absolute; left: 300px; top: 267px; width: 480px; height: 480px; border-radius: 50%; border: 3px solid rgba(12,127,143,.35); box-sizing: border-box; opacity: 0; }
+.p3-port { position: absolute; left: 312px; top: 279px; width: 456px; height: 456px; border-radius: 50%; overflow: hidden; border: 10px solid #F1EEE7; box-sizing: border-box; background: #F1EEE7; opacity: 0; }
+.p3-port img { width: 100%; height: 100%; object-fit: cover; object-position: 50% 22%; display: block; }
+.p3-jm { position: absolute; left: 0; top: 817px; width: 1080px; text-align: center; font: 700 38px "Inter", sans-serif; letter-spacing: .62em; text-indent: .62em; color: #0B2229; opacity: 0; }
+.p3-wm { position: absolute; left: 0; top: 879px; overflow: visible; }
+.p3-handle { position: absolute; left: 0; top: 1033px; width: 1080px; text-align: center; font: 700 32px "JetBrains Mono", monospace; letter-spacing: 1px; color: #4f7077; clip-path: inset(0 100% 0 0); }
+.p3-th { position: absolute; top: 1147px; width: 270px; height: 190px; opacity: 0; }
+.p3-sub { position: absolute; left: 0; top: 1420px; width: 1080px; text-align: center; font: 800 64px/77px "Inter", sans-serif; letter-spacing: -.01em; color: #0B2229; white-space: nowrap; }
+.p3-s56 { font-size: 56px; }
+.p3-sw { display: inline-block; opacity: 0; }
+.p3-ink { position: relative; display: inline-block; margin: 0 14px; }
+.p3-inkbg { position: absolute; left: -16px; right: -16px; top: 4px; bottom: 0; border-radius: 12px; background: #0C7F8F; transform-origin: 0 50%; transform: scaleX(0); }
+.p3-inktx { position: relative; }
+.p3-trait { position: absolute; left: -16px; right: -16px; bottom: -20px; height: 9px; border-radius: 9px; background: #0C7F8F; transform-origin: 0 50%; transform: scaleX(0); }
+.p3-sw.inb { color: #fff; }
+</style>
+
+  <div id="root" data-composition-id="03-pivot" data-width="1080" data-height="1920" data-duration="4.58">
+    <div id="p3-ground" class="clip p3-layer p3-ground" data-start="0" data-duration="4.58" data-track-index="0"></div>
+    <div id="p3-header" class="clip p3-layer" data-start="0" data-duration="4.58" data-track-index="2" style="z-index:3">
+      <div class="p3-rail"></div><div id="p3-fill" class="p3-fill"></div><i class="p3-tick" style="left:70.0px;top:150px;height:26px"></i><i class="p3-tick" style="left:95.6px;top:162px;height:14px"></i><i class="p3-tick" style="left:121.3px;top:162px;height:14px"></i><i class="p3-tick" style="left:146.9px;top:162px;height:14px"></i><i class="p3-tick" style="left:172.5px;top:162px;height:14px"></i><i class="p3-tick" style="left:198.1px;top:150px;height:26px"></i><b class="p3-tlab" style="left:204.1px">00:05</b><i class="p3-tick" style="left:223.8px;top:162px;height:14px"></i><i class="p3-tick" style="left:249.4px;top:162px;height:14px"></i><i class="p3-tick" style="left:275.0px;top:162px;height:14px"></i><i class="p3-tick" style="left:300.6px;top:162px;height:14px"></i><i class="p3-tick" style="left:326.3px;top:150px;height:26px"></i><b class="p3-tlab" style="left:332.3px">00:10</b><i class="p3-tick" style="left:351.9px;top:162px;height:14px"></i><i class="p3-tick" style="left:377.5px;top:162px;height:14px"></i><i class="p3-tick" style="left:403.2px;top:162px;height:14px"></i><i class="p3-tick" style="left:428.8px;top:162px;height:14px"></i><i class="p3-tick" style="left:454.4px;top:150px;height:26px"></i><b class="p3-tlab" style="left:460.4px">00:15</b><i class="p3-tick" style="left:480.0px;top:162px;height:14px"></i><i class="p3-tick" style="left:505.7px;top:162px;height:14px"></i><i class="p3-tick" style="left:531.3px;top:162px;height:14px"></i><i class="p3-tick" style="left:556.9px;top:162px;height:14px"></i><i class="p3-tick" style="left:582.5px;top:150px;height:26px"></i><b class="p3-tlab" style="left:588.5px">00:20</b><i class="p3-tick" style="left:608.2px;top:162px;height:14px"></i><i class="p3-tick" style="left:633.8px;top:162px;height:14px"></i><i class="p3-tick" style="left:659.4px;top:162px;height:14px"></i><i class="p3-tick" style="left:685.0px;top:162px;height:14px"></i><i class="p3-tick" style="left:710.7px;top:150px;height:26px"></i><b class="p3-tlab" style="left:716.7px">00:25</b><i class="p3-tick" style="left:736.3px;top:162px;height:14px"></i><i class="p3-tick" style="left:761.9px;top:162px;height:14px"></i><i class="p3-tick" style="left:787.6px;top:162px;height:14px"></i><i class="p3-tick" style="left:813.2px;top:162px;height:14px"></i><i class="p3-tick" style="left:838.8px;top:150px;height:26px"></i><b class="p3-tlab" style="left:844.8px">00:30</b><i class="p3-tick" style="left:864.4px;top:162px;height:14px"></i><i class="p3-tick" style="left:890.1px;top:162px;height:14px"></i><i class="p3-tick" style="left:915.7px;top:162px;height:14px"></i><i class="p3-tick" style="left:941.3px;top:162px;height:14px"></i><i class="p3-tick" style="left:966.9px;top:150px;height:26px"></i><b class="p3-tlab" style="left:972.9px">00:35</b><i class="p3-tick" style="left:992.6px;top:162px;height:14px"></i>
+      <div id="p3-phw" class="p3-phw"><div class="p3-ph"></div><div class="p3-tc"><b id="p3-t0">00:09</b><b id="p3-t1">00:10</b><b id="p3-t2">00:11</b><b id="p3-t3">00:12</b><b id="p3-t4">00:13</b><b id="p3-t5">00:14</b></div></div>
+    </div>
+    <div id="p3-world" class="clip p3-layer" data-start="0" data-duration="4.58" data-track-index="1" style="z-index:2">
+      <svg id="p3-ghost" class="p3-ghost" width="728" height="1300" viewBox="0 0 560 1000" aria-hidden="true"><path d="M110,250 C110,50 470,50 470,290 C470,470 290,500 290,660" fill="none" stroke="rgba(12,127,143,.22)" stroke-width="44" stroke-linecap="round"/><circle cx="290" cy="830" r="40" fill="rgba(12,127,143,.22)"/></svg>
+      <div id="p3-cam" class="p3-fx">
+        <div id="p3-post" class="p3-post"><div class="p3-hd"><div class="p3-av"><i></i></div><div class="p3-nm">@video.en.cours<small>à l'instant</small></div></div><div class="p3-media"><img src="assets/img/fx/cinema.jpg" alt=""></div><div class="p3-acts"><span class="p3-ic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0B2229" stroke-width="2" stroke-linejoin="round"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 2.6 4.5 6.4 4.5c2.2 0 3.7 1.2 5.6 3.3 1.9-2.1 3.4-3.3 5.6-3.3 3.8 0 5.5 3.9 4 7.3C19.5 16.4 12 21 12 21z"/></svg></span><span class="p3-ic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0B2229" stroke-width="2" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.4 7.5L3 20.5l1.6-5.2A8.5 8.5 0 1 1 21 11.5z"/></svg></span><span class="p3-ic"><svg width="58" height="58" viewBox="0 0 24 24" fill="none" stroke="#0B2229" stroke-width="2" stroke-linejoin="round"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg></span></div><div class="p3-bar" style="width:92%"></div><div class="p3-bar" style="width:62%"></div></div>
+        <div id="p3-grp" class="p3-fx">
+          <div id="p3-glow" class="p3-glow"></div>
+          <div id="p3-ring2" class="p3-ring2"></div>
+          <div id="p3-ring" class="p3-ring"></div>
+          <div id="p3-card" class="p3-card"><div id="p3-cbord" class="p3-cbord"></div><div id="p3-cmask" class="p3-cmask"><img class="p3-cgray" src="assets/img/fx/grading.jpg" alt=""><div id="p3-ccol" class="p3-ccol" style="position:absolute;left:0;top:0;width:860px;height:484px"><img src="assets/img/fx/grading.jpg" alt=""></div><div id="p3-div" class="p3-div"></div></div></div>
+          <div id="p3-port" class="p3-port"><img src="assets/img/fx/portrait.jpg" alt=""></div>
+          <div id="p3-jm" class="p3-jm">JAMES</div>
+          <svg id="p3-wm" class="p3-wm" width="1080" height="150" viewBox="0 0 1080 150" data-layout-allow-overflow role="img" aria-label="FRAMØTION"><defs><pattern id="p3-dots" width="6.4" height="6.4" patternUnits="userSpaceOnUse"><circle cx="3.2" cy="3.2" r="2.3" fill="#0B2229"/></pattern></defs><text class="p3-let" x="232.8" y="108" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="128" fill="url(#p3-dots)">F</text><text class="p3-let" x="309.6" y="108" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="128" fill="url(#p3-dots)">R</text><text class="p3-let" x="386.4" y="108" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="128" fill="url(#p3-dots)">A</text><text class="p3-let" x="463.2" y="108" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="128" fill="url(#p3-dots)">M</text><text class="p3-let" x="540.0" y="108" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="128" fill="url(#p3-dots)">O</text><text class="p3-let" x="616.8" y="108" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="128" fill="url(#p3-dots)">T</text><text class="p3-let" x="693.6" y="108" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="128" fill="url(#p3-dots)">I</text><text class="p3-let" x="770.4" y="108" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="128" fill="url(#p3-dots)">O</text><text class="p3-let" x="847.2" y="108" text-anchor="middle" font-family="JetBrains Mono" font-weight="700" font-size="128" fill="url(#p3-dots)">N</text><rect id="p3-bar" x="533.5" y="-10" width="13" height="143" rx="5" fill="#0C7F8F" opacity="0" style="filter:drop-shadow(0 0 10px rgba(12,127,143,.6))"/></svg>
+          <div id="p3-handle" class="p3-handle">@jamesframotion</div>
+          <div id="p3-th0" class="p3-th p3-mini" style="left:70px"><img src="assets/img/fx/timeline.jpg" alt=""></div>
+          <div id="p3-th1" class="p3-th p3-mini" style="left:405px;top:1167px"><img src="assets/img/fx/grading.jpg" alt=""></div>
+          <div id="p3-th2" class="p3-th p3-mini" style="left:740px"><img src="assets/img/fx/cinema.jpg" alt=""></div>
+        </div>
+        <div id="p3-chip" class="p3-chip">LOG ▸ ÉTALONNÉ</div>
+        <div id="p3-mA" class="p3-mini" data-layout-allow-overflow style="left:-120px;top:520px;width:420px;height:300px"><img src="assets/img/fx/createur.jpg" alt=""></div>
+        <div id="p3-mB" class="p3-mini" data-layout-allow-overflow style="left:800px;top:880px;width:420px;height:300px"><img src="assets/img/fx/cadreur.jpg" alt=""></div>
+      </div>
+    </div>
+    <div id="p3-subs" class="clip p3-layer" data-start="0" data-duration="4.58" data-track-index="3" style="z-index:4">
+      <div id="p3-s1" class="p3-sub"><span class="p3-sw" data-cue="0.00">Alors,</span></div>
+      <div id="p3-s2" class="p3-sub p3-s56"><span class="p3-sw" data-cue="0.70">qu'est-ce</span> <span class="p3-sw" data-cue="0.96">qu'elles</span> <span class="p3-sw" data-cue="1.08">ont</span> <span class="p3-ink"><i class="p3-inkbg" data-trace="1.18"></i><span class="p3-inktx"><span class="p3-sw inb" data-cue="1.24">de</span> <span class="p3-sw inb" data-cue="1.34">plus</span></span></span> <span class="p3-sw" data-cue="1.42">?</span></div>
+      <div id="p3-s3" class="p3-sub"><span class="p3-sw" data-cue="2.16">Moi,</span></div>
+      <div id="p3-s4" class="p3-sub"><span class="p3-sw" data-cue="2.68">c'est</span> <span class="p3-ink"><i class="p3-inkbg" data-trace="2.68"></i><span class="p3-inktx"><span class="p3-sw inb" data-cue="2.76">James,</span></span><i class="p3-trait" data-trace="2.84"></i></span></div>
+      <div id="p3-s5" class="p3-sub"><span class="p3-sw" data-cue="3.54">monteur</span> <span class="p3-sw" data-cue="3.82">vidéo.</span></div>
+    </div>
+    <div id="p3-vig" class="clip p3-layer p3-vig" data-start="0" data-duration="4.58" data-track-index="4" style="z-index:5"></div>
+    <div id="p3-grain" class="clip p3-layer p3-grain" data-start="0" data-duration="4.58" data-track-index="5" style="z-index:6"></div>
+  </div>
+
+  <script src="assets/vendor/gsap-3.14.2.min.js"></script>
+  <script>
+    (function () {
+      var FID = "03-pivot", DUR = 4.58;
+      var root = document.querySelector('[data-composition-id="' + FID + '"]');
+      function $(n) { return root.querySelector("#p3-" + n); }
+      function qa(sel) { return Array.prototype.slice.call(root.querySelectorAll(sel)); }
+      var tl = gsap.timeline({ paused: true });
+      function ft(el, a, b, t) { b.immediateRender = (t === 0); tl.fromTo(el, a, b, t); }
+      function fl(el, a, b, t) { b.immediateRender = false; tl.fromTo(el, a, b, t); }
+
+      // ---------- état de départ = handoff_in ----------
+      gsap.set($("post"), { scale: 0.5, transformOrigin: "50% 50%", filter: "blur(12px)" });
+      gsap.set($("ghost"), { filter: "blur(12px)" });
+      gsap.set($("cam"), { transformOrigin: "540px 700px" });
+      gsap.set($("card"), { transformOrigin: "50% 50%" });
+      gsap.set($("th0"), { rotation: -4 }); gsap.set($("th2"), { rotation: 4 });
+      gsap.set($("mA"), { rotation: -7, filter: "blur(9px)" }); gsap.set($("mB"), { rotation: 6, filter: "blur(9px)" });
+      gsap.set($("ring"), { transformOrigin: "50% 50%" });
+      gsap.set($("ring2"), { scale: 1.22, transformOrigin: "50% 50%" });
+      gsap.set($("glow"), { transformOrigin: "50% 50%" });
+      gsap.set($("grp"), { transformOrigin: "540px 700px" });
+      gsap.set($("bar"), { svgOrigin: "540 61" });
+      gsap.set($("t0"), { opacity: 1 });
+
+      // ---------- règle de temps : x 316 → 433, linéaire, arrêt 0.4 s sur « James » (2.76 → 3.16) ----------
+      var V = 117 / 4.18, OFF1 = V * 2.76;
+      gsap.set($("fill"), { scaleX: 246 / 940 });
+      tl.fromTo($("phw"), { x: 246 }, { x: 246 + OFF1, duration: 2.76, ease: "none", immediateRender: true }, 0);
+      tl.fromTo($("phw"), { x: 246 + OFF1 }, { x: 363, duration: 1.42, ease: "none", immediateRender: false }, 3.16);
+      tl.fromTo($("fill"), { scaleX: 246 / 940 }, { scaleX: (246 + OFF1) / 940, duration: 2.76, ease: "none", immediateRender: true }, 0);
+      tl.fromTo($("fill"), { scaleX: (246 + OFF1) / 940 }, { scaleX: 363 / 940, duration: 1.42, ease: "none", immediateRender: false }, 3.16);
+      [["t0", "t1", 0.42], ["t1", "t2", 1.42], ["t2", "t3", 2.42], ["t3", "t4", 3.42], ["t4", "t5", 4.42]].forEach(function (s) {
+        tl.set($(s[0]), { opacity: 0 }, s[2]); tl.set($(s[1]), { opacity: 1 }, s[2]);
+      });
+
+      // ---------- dérive linéaire du monde : +30 u/s vers le haut ----------
+      tl.fromTo($("world"), { y: 0 }, { y: -30 * DUR, duration: DUR, ease: "none", immediateRender: true }, 0);
+
+      // ---------- scène 1 (0.00 à 1.40) : le post se replie, la carte avant/après naît ----------
+      ft($("post"), { scale: 0.5, filter: "blur(12px)", opacity: 1 }, { scale: 0.05, filter: "blur(12px)", opacity: 0, duration: 0.18, ease: "power3.in" }, 0);
+      fl($("card"), { opacity: 0, scale: 1.5, filter: "blur(12px)" }, { opacity: 1, scale: 1, filter: "blur(0px)", duration: 0.4, ease: "expo.out" }, 0.10);
+      fl($("ghost"), { filter: "blur(12px)" }, { filter: "blur(1.5px)", duration: 0.4, ease: "power2.out" }, 0.0);
+      fl($("mA"), { opacity: 0, x: -40 }, { opacity: 0.6, x: 0, duration: 0.3, ease: "power2.out" }, 0.20);
+      fl($("mB"), { opacity: 0, x: 40 }, { opacity: 0.6, x: 0, duration: 0.3, ease: "power2.out" }, 0.24);
+      fl($("chip"), { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.2, ease: "power2.out" }, 0.50);
+      fl($("div"), { opacity: 0, x: 0 }, { opacity: 1, x: 0, duration: 0.05, ease: "none" }, 0.78);
+      fl($("div"), { x: 0 }, { x: 860, duration: 0.5, ease: "power2.inOut" }, 0.80);
+      fl($("ccol"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.5, ease: "power2.inOut" }, 0.80);
+      fl($("div"), { opacity: 1 }, { opacity: 0, duration: 0.15, ease: "power1.in" }, 1.50);
+
+      // ---------- scène 2 (1.40 à 2.68) : la carte se resserre en cercle ----------
+      fl([$("mA")], { x: 0, opacity: 0.6 }, { x: -300, opacity: 0, duration: 0.3, ease: "power2.in" }, 1.50);
+      fl([$("mB")], { x: 0, opacity: 0.6 }, { x: 300, opacity: 0, duration: 0.3, ease: "power2.in" }, 1.50);
+      fl($("chip"), { opacity: 1 }, { opacity: 0, duration: 0.15, ease: "power1.in" }, 1.60);
+      fl($("cbord"), { opacity: 1 }, { opacity: 0, duration: 0.2, ease: "power1.in" }, 1.70);
+      fl($("cmask"), { clipPath: "inset(0px 0px 0px 0px round 12px)" }, { clipPath: "inset(14px 202px 14px 202px round 12px)", duration: 0.45, ease: "expo.inOut" }, 1.70);
+      fl($("cmask"), { clipPath: "inset(14px 202px 14px 202px round 12px)" }, { clipPath: "inset(14px 202px 14px 202px round 228px)", duration: 0.25, ease: "power2.out" }, 2.15);
+      fl($("card"), { y: 0 }, { y: -255, duration: 0.45, ease: "expo.inOut" }, 1.70);
+      fl($("ring"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.10);
+      fl($("cam"), { scale: 1 }, { scale: 1.08, duration: 0.45, ease: "expo.out" }, 1.70);
+      fl($("ghost"), { opacity: 0.7 }, { opacity: 0.2, duration: 0.45, ease: "power2.out" }, 1.70);
+      fl($("glow"), { opacity: 0, scale: 0.8 }, { opacity: 0.38, scale: 1, duration: 0.6, ease: "power2.out" }, 2.40);
+      fl($("glow"), { scale: 1 }, { scale: 1.04, duration: 0.8, ease: "sine.inOut" }, 3.0);
+      fl($("glow"), { scale: 1.04 }, { scale: 1.0, duration: 0.8, ease: "sine.inOut" }, 3.8);
+
+      // ---------- scène 3 (2.68 à 4.58) : James, le mot-symbole, les travaux ----------
+      fl($("port"), { opacity: 0 }, { opacity: 1, duration: 0.18, ease: "power1.out" }, 2.60);
+      fl($("card"), { opacity: 1 }, { opacity: 0, duration: 0.05, ease: "none" }, 2.78);
+      fl($("cam"), { scale: 1.08 }, { scale: 1, duration: 0.3, ease: "expo.out" }, 2.60);
+      fl($("ring2"), { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" }, 2.90);
+      fl($("ring"), { rotation: 0 }, { rotation: 360, duration: 0.5, ease: "expo.out" }, 2.76);
+      fl($("ring"), { rotation: 360 }, { rotation: 392, duration: 0.38, ease: "none" }, 4.20);
+      fl($("jm"), { opacity: 0, y: 14, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.3, ease: "power2.out" }, 3.05);
+      // FRAMØTION : les lettres convergent des deux côtés
+      var lets = qa("#p3-wm .p3-let");
+      gsap.set(lets, { opacity: 0 });
+      gsap.set([$("jm"), $("bar"), $("th0"), $("th1"), $("th2")], { opacity: 0 });
+      gsap.set($("handle"), { clipPath: "inset(0 100% 0 0)" });
+      lets.forEach(function (L, i) {
+        var side = i < 4 ? -1 : (i > 4 ? 1 : 0), dist = Math.abs(i - 4), d = 3.15 + 0.04 * (4 - dist);
+        if (side === 0) fl(L, { opacity: 0, scale: 0.4, svgOrigin: "540 61" }, { opacity: 1, scale: 1, svgOrigin: "540 61", duration: 0.5, ease: "expo.out" }, d);
+        else fl(L, { opacity: 0, x: side * 330 }, { opacity: 1, x: 0, duration: 0.5, ease: "expo.out" }, d);
+      });
+      fl($("bar"), { opacity: 0, rotation: 0 }, { opacity: 1, rotation: 28, duration: 0.25, ease: "power3.out" }, 3.45);
+      fl($("handle"), { clipPath: "inset(0 100% 0 0)" }, { clipPath: "inset(0 0% 0 0)", duration: 0.4, ease: "power2.out" }, 3.54);
+      ["th0", "th1", "th2"].forEach(function (id, i) {
+        fl($(id), { opacity: 0, y: 110, filter: "blur(10px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.35, ease: "expo.out" }, 3.60 + 0.1 * i);
+      });
+      // couture : le groupe descend, flou 10 px, vitesse finale 1500 u/s
+      fl($("grp"), { y: 0 }, { y: 100, duration: 0.2, ease: "power3.in" }, 4.38);
+      fl($("grp"), { filter: "blur(0px)" }, { filter: "blur(10px)", duration: 0.2, ease: "power1.in" }, 4.38);
+
+      // ---------- la phrase : mot par mot ----------
+      qa(".p3-sub .p3-sw").forEach(function (wd) {
+        var t0 = parseFloat(wd.getAttribute("data-cue")), inb = wd.classList.contains("inb");
+        fl(wd, { opacity: 0, y: 10, filter: "blur(6px)" }, { opacity: 1, y: 0, filter: "blur(0px)", duration: 0.14, ease: "power2.out" }, t0);
+        if (!inb) fl(wd, { color: "rgba(11,34,41,0.35)" }, { color: "rgba(11,34,41,1)", duration: 0.2, ease: "power1.out" }, t0 + 0.08);
+      });
+      qa(".p3-inkbg").forEach(function (b) { fl(b, { scaleX: 0 }, { scaleX: 1, duration: 0.16, ease: "power3.out" }, parseFloat(b.getAttribute("data-trace"))); });
+      qa(".p3-trait").forEach(function (b) { fl(b, { scaleX: 0 }, { scaleX: 1, duration: 0.2, ease: "power3.out" }, parseFloat(b.getAttribute("data-trace"))); });
+      function subOut(id, t0) {
+        var els = qa("#p3-" + id + " .p3-sw").concat(qa("#p3-" + id + " .p3-inkbg")).concat(qa("#p3-" + id + " .p3-trait"));
+        fl(els, { opacity: 1, filter: "blur(0px)" }, { opacity: 0, filter: "blur(6px)", duration: 0.12, ease: "power2.in" }, t0);
+      }
+      subOut("s1", 0.58); subOut("s2", 1.56); subOut("s3", 2.56); subOut("s4", 3.42); subOut("s5", 4.26);
+
+      tl.set({}, {}, DUR);
+      window.__timelines = window.__timelines || {};
+      window.__timelines[FID] = tl;
+    })();
+  </script>
+</template>
